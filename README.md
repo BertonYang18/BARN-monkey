@@ -9,9 +9,15 @@ Note:
 
 ## Data Preparation
 
-Please download the video frames of socially housed macaques from (xxx) and save them in the path of "BARN-monkey/data/monkey/frames/"
+1- Please download the video frames of socially housed macaques from (xxx) and save them in the path of "BARN-monkey/data/monkey/frames/".
 
+2- Please download the checkpoint files from (xxx) and save them in the path of "BARN-monkey/checkpoint/".
 
+## Train and test
+
+Please use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
+
+## original readme.md of mmaction2
 The followings are the content in readme.md of mmaction2:
 
 [📘Documentation](https://mmaction2.readthedocs.io/en/latest/) |
