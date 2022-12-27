@@ -1,8 +1,9 @@
 BARN is based on the platform of **mmaction2 Release: v0.22.0 was released in 05/03/2022**. 
 
 Note:
-1- use the "mmcv" and "mmdet" in BARN instead of the original version.
 
+1- Using the file "mmcv" and "mmdet" in BARN instead of the original version.
+2- Downloading "mmcv/_ext.cpython-38-x86_64-linux-gnu.so" from the original version and saving it in the file "mmcv" in BARN.
 
 The followings are the content in readme.md of mmaction2:
 
