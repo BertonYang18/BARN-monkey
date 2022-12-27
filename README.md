@@ -1,5 +1,5 @@
-BARN is based on the platform of "mmaction2"
-**mmaction2 Release**: v0.22.0 was released in 05/03/2022. 
+BARN is based on the platform of **mmaction2 Release: v0.22.0 was released in 05/03/2022**. 
+
 Note:
 1- use the "mmcv" and "mmdet" in BARN instead of the original version.
 
