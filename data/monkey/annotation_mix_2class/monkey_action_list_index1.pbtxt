@@ -1,0 +1,8 @@
+item {
+  name: "慢动作"
+  id: 1
+}
+item {
+  name: "快动作"
+  id: 2
+}
