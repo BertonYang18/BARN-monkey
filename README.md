@@ -3,7 +3,14 @@ BARN is based on the platform of **mmaction2 Release: v0.22.0 was released in 05
 Note:
 
 1- Using the file "mmcv" and "mmdet" in BARN instead of the original version.
+
 2- Downloading "mmcv/_ext.cpython-38-x86_64-linux-gnu.so" from the original version and saving it in the file "mmcv" in BARN.
+
+
+## Data Preparation
+
+Please download the video frames of socially housed macaques from (xxx) and save them in the path of "BARN-monkey/data/monkey/frames/"
+
 
 The followings are the content in readme.md of mmaction2:
 
@@ -46,12 +53,6 @@ There are also tutorials:
 
 A Colab tutorial is also provided. You may preview the notebook [here](demo/mmaction2_tutorial.ipynb) or directly [run](https://colab.research.google.com/github/open-mmlab/mmaction2/blob/master/demo/mmaction2_tutorial.ipynb) on Colab.
 
-
-
-## Data Preparation
-
-Please refer to [data_preparation.md](docs/data_preparation.md) for a general knowledge of data preparation.
-The supported datasets are listed in [supported_datasets.md](docs/supported_datasets.md)
 
 ## License
 
