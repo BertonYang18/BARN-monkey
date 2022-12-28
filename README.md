@@ -13,7 +13,10 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 |config | resolution | gpus | backbone |pretrain| mAP(%) | gpu_mem(MB) | ckpt |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-|mix_r50_4x16x1_20e_ava_rgb_custom |short-side 256|1x3| SlowFast | ava v2.1 | 58.8 | 24220 | see above link |
+|[mix_r50_4x16x1_20e_ava_rgb_custom](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowFast | ava v2.1 | 58.8 | 24220 | BARR_monkey_58.8.pth |
+|[mix_acrn](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowFast | ava v2.1 | 56.97 | 24220 | ACRN_56.97.pth |
+|[mix_slowonly_r50_4x16x1](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowOnly | ava v2.1 | 56.72 | 24220 | slowonly_56.72.pth |
+|[mix_r50_4x16x1_20e_ava_rgb_custom_baseline](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowFast | ava v2.1 | 56.03 | 24220 | baseline_56.03.pth |
 
 
 2- Please download the checkpoint files from (we will publish the link as soon as possible) and save them in the path of "BARN-monkey/checkpoint/".
