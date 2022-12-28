@@ -1,4 +1,4 @@
-BARN is based on the platform of **mmaction2 v0.22.0**(released in 05/03/2022). 
+BARN is based on the platform of **mmaction2 v0.22.0(https://github.com/open-mmlab/mmaction2)**(released in 05/03/2022). 
 
 ## Note
 
@@ -17,7 +17,7 @@ BARN is based on the platform of **mmaction2 v0.22.0**(released in 05/03/2022).
 
 Please use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
 
-## original readme.md of mmaction2
+## Original readme.md of mmaction2
 The followings are the content in readme.md of mmaction2:
 
 [📘Documentation](https://mmaction2.readthedocs.io/en/latest/) |
