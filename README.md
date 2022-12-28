@@ -1,6 +1,6 @@
-BARN is based on the platform of **mmaction2 Release: v0.22.0 was released in 05/03/2022**. 
+BARN is based on the platform of **mmaction2 v0.22.0**(released in 05/03/2022). 
 
-Note:
+## Note
 
 1- Using the file "mmcv" and "mmdet" in BARN instead of the original version.
 
@@ -9,11 +9,11 @@ Note:
 
 ## Data Preparation
 
-1- Please download the video frames of socially housed macaques from (xxx) and save them in the path of "BARN-monkey/data/monkey/frames/".
+1- Please download the video frames of socially housed macaques from (we will publish the link as soon as possible) and save them in the path of "BARN-monkey/data/monkey/frames/".
 
-2- Please download the checkpoint files from (xxx) and save them in the path of "BARN-monkey/checkpoint/".
+2- Please download the checkpoint files from (we will publish the link as soon as possible) and save them in the path of "BARN-monkey/checkpoint/".
 
-## Train and test
+## Training and testing
 
 Please use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
 
