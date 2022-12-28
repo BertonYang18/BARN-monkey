@@ -9,7 +9,12 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 ## Data Preparation
 
-1- Please download the video frames of socially housed macaques from (we will publish the link as soon as possible) and save them in the path of "BARN-monkey/data/monkey/frames/".
+1- Please download the video frames of socially housed macaques from ckpt(https://drive.google.com/file/d/1xDomKg2tJFlZzPDJZRcWA-92MKK0whcO/view?usp=sharing) and save them in the path of "BARN-monkey/data/monkey/frames/".
+
+|config | resolution | gpus | backbone |pretrain| mAP(%) | gpu_mem(MB) | ckpt |
+|:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+|mix_r50_4x16x1_20e_ava_rgb_custom |short-side 256|1x3| SlowFast | ava v2.1 | 58.8 | 24220 | [ckpt](https://drive.google.com/file/d/1xDomKg2tJFlZzPDJZRcWA-92MKK0whcO/view?usp=share_link) |
+
 
 2- Please download the checkpoint files from (we will publish the link as soon as possible) and save them in the path of "BARN-monkey/checkpoint/".
 
