@@ -4,12 +4,12 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 1- Please use the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
 
-2- Please download [ext.cpython-38-x86_64-linux-gnu.so](https://drive.google.com/file/d/1fgIpmBsJdoVywg6Ax_8QenBmSFdi2nA0/view?usp=sharing) and save it in the path of "BARN-monkey/mmcv/_ext.cpython-38-x86_64-linux-gnu.so".
+2- Please download [ext.cpython-38-x86_64-linux-gnu.so](https://drive.google.com/file/d/1fgIpmBsJdoVywg6Ax_8QenBmSFdi2nA0/view?usp=sharing) and save it to the path of "BARN-monkey/mmcv/_ext.cpython-38-x86_64-linux-gnu.so".
 
 
 ## Data Preparation
 
-1- Please download the checkpoint files from [ckpt](https://drive.google.com/file/d/1xDomKg2tJFlZzPDJZRcWA-92MKK0whcO/view?usp=sharing) and save them in the path of "BARN-monkey/checkpoint/".
+1- Please download the checkpoint files from [ckpt](https://drive.google.com/file/d/1xDomKg2tJFlZzPDJZRcWA-92MKK0whcO/view?usp=sharing) and save them to the path of "BARN-monkey/checkpoint/".
 
 |config | resolution | gpus | backbone |pretrain| mAP(%) | gpu_mem(MB) | ckpt |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
