@@ -4,7 +4,7 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 1- Please use the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
 
-2- Please download [ext.cpython-38-x86_64-linux-gnu.so](https://drive.google.com/file/d/1fgIpmBsJdoVywg6Ax_8QenBmSFdi2nA0/view?usp=sharing) and save it in the path "BARN-monkey/mmcv/_ext.cpython-38-x86_64-linux-gnu.so".
+2- Please download [ext.cpython-38-x86_64-linux-gnu.so](https://drive.google.com/file/d/1fgIpmBsJdoVywg6Ax_8QenBmSFdi2nA0/view?usp=sharing) and save it in the path of "BARN-monkey/mmcv/_ext.cpython-38-x86_64-linux-gnu.so".
 
 
 ## Data Preparation
@@ -19,7 +19,7 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 |[mix_r50_4x16x1_20e_ava_rgb_custom_baseline](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowFast | ava v2.1 | 56.03 | 24220 | baseline_56.03.pth |
 
 
-2- Please download the videos of socially housed macaques from data(we will open the link as soon as possiable), extract the video frames with the [code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them in the path of "BARN-monkey/data/monkey/frames/".
+2- Please download the videos of socially housed macaques from data(we will open the link as soon as possiable), extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/".
 
 ## Training and testing
 
