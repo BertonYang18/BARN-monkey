@@ -2,7 +2,7 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 ## Note
 
-1- Using the file "mmcv" and "mmdet" in BARN instead of the original version.
+1- Using the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
 
 2- Downloading "mmcv/_ext.cpython-38-x86_64-linux-gnu.so" from the original version and saving it in the file "mmcv" in BARN.
 
