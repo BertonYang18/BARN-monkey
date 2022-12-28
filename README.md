@@ -19,7 +19,8 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 |[mix_r50_4x16x1_20e_ava_rgb_custom_baseline](https://github.com/BertonYang18/BARN-monkey/tree/main/configs/detection/monkey) |short-side 256|1x3| SlowFast | ava v2.1 | 56.03 | 24220 | baseline_56.03.pth |
 
 
-2- Please download the video frames of socially housed macaques from data(we will open the link as soon as possiable) and save them in the path of "BARN-monkey/data/monkey/frames/".
+2- Please download the videos of socially housed macaques from data(we will open the link as soon as possiable), extract the video frames with the [code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them in the path of "BARN-monkey/data/monkey/frames/".
+
 ## Training and testing
 
 You can use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
