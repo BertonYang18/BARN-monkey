@@ -1,4 +1,4 @@
-BARN is based on the platform of **mmaction2 v0.22.0(https://github.com/open-mmlab/mmaction2)**(released in 05/03/2022). 
+BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
 
 ## Note
 
