@@ -2,9 +2,9 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 ## Note
 
-1- Using the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
+1- Please use the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
 
-2- Downloading "mmcv/_ext.cpython-38-x86_64-linux-gnu.so" from the original version and saving it in the file "mmcv" in BARN.
+2- Please Download [ext.cpython-38-x86_64-linux-gnu.so](https://drive.google.com/file/d/1fgIpmBsJdoVywg6Ax_8QenBmSFdi2nA0/view?usp=sharing) and save it in the path "BARN-monkey/mmcv/_ext.cpython-38-x86_64-linux-gnu.so".
 
 
 ## Data Preparation
@@ -23,7 +23,7 @@ BARN is based on the platform of **[mmaction2](https://github.com/open-mmlab/mma
 
 ## Training and testing
 
-Please use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
+You can use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
 
 ## Original readme.md of mmaction2
 The followings are the content in readme.md of mmaction2:
