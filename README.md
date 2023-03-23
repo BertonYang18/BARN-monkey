@@ -1,5 +1,13 @@
 BARN is based on the code platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
 
+<div align="center">
+  <div style="float:left;margin-right:10px;">
+  <img src="https://drive.google.com/file/d/1YcNibr-pI67IHJ880mK6TA8lmWteAeKg/view?usp=share_link" width="380px"><br>
+    <p style="font-size:1.5vw;">Multi-label Behavior Detection Results of BARN on the macaque behavior dataset</p>
+  </div>
+</div>
+
+
 ## Note
 
 1- Please use the files [mmcv](https://github.com/BertonYang18/BARN-monkey/tree/main/mmcv) and [mmdet](https://github.com/BertonYang18/BARN-monkey/tree/main/mmdet) in BARN instead of the original version.
