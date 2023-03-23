@@ -25,7 +25,7 @@ https://user-images.githubusercontent.com/53562283/227199696-adcc9f1b-7dfb-42e4-
 |mix_r50_4x16x1_20e_ava_rgb_custom_baseline |short-side 256|1x3| SlowFast | ava v2.1 | 58.8 | 24220 | [ckpt](https://drive.google.com/file/d/1ugIGRbFjhq19hdYXaTNvwjERxPbXtaUb/view?usp=share_link) |
 
 
-2- Please download the videos of socially housed macaques from [data](https://drive.google.com/file/d/1js0rWrHFzt_7M6A3w2eD9NBVJjhH6QBM/view?usp=sharing), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames in valuation set.
+2- Please download the videos of socially housed macaques from [data]([https://drive.google.com/file/d/1js0rWrHFzt_7M6A3w2eD9NBVJjhH6QBM/view?usp=sharing](https://drive.google.com/drive/folders/1OnbBmgrOv0lLPgof0dVh3f4VsdNx_RSj?usp=share_link)), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames in valuation set.
 
 ## Training and testing
 
