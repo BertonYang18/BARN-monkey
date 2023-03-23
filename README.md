@@ -1,11 +1,10 @@
 BARN is based on the code platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
 
+
 ![monkey_BARN_demo](https://user-images.githubusercontent.com/53562283/227211342-cdb51882-9316-491a-9c8e-ee8bf0be248f.gif)
 <div align="center">
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
   </div>
-
-
 
 
 ## Note
@@ -75,6 +74,12 @@ There are also tutorials:
 
 A Colab tutorial is also provided. You may preview the notebook [here](demo/mmaction2_tutorial.ipynb) or directly [run](https://colab.research.google.com/github/open-mmlab/mmaction2/blob/master/demo/mmaction2_tutorial.ipynb) on Colab.
 
+## Monkey detector of BARN
+The [monkey detector](https://github.com/BertonYang18/BARN_detector_YOLOv7) can generate the proposals including identities and bounding boxes of socially housed macaques.Specifically, using the monkey detector as follows:
+1. Using the monkey detector to generate the proposals, which is the format of txt file.
+2. Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to convert the txt results into pickle (.pkl) file.
+3. Adopting the target config file and GPU in train_monkey.py / test_monkey.py 
+4. Checking the path of .pkl file in the config file such as [BARN.py](https://github.com/BertonYang18/BARN-monkey/blob/main/configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py).
 
 ## License
 
