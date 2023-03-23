@@ -1,0 +1,76 @@
+item {
+  name: "蹲坐（高空架子）"
+  id: 1
+}
+item {
+  name: "行走"
+  id: 2
+}
+item {
+  name: "爬立"
+  id: 3
+}
+item {
+  name: "攀爬"
+  id: 4
+}
+item {
+  name: "附着"
+  id: 5
+}
+item {
+  name: "上肢悬挂"
+  id: 6
+}
+item {
+  name: "竖立"
+  id: 7
+}
+item {
+  name: "进食"
+  id: 8
+}
+item {
+  name: "跳跃"
+  id: 9
+}
+item {
+  name: "卧倒（高空架子）"
+  id: 10
+}
+item {
+  name: "蹲坐（地面）"
+  id: 11
+}
+item {
+  name: "卧倒（地面）"
+  id: 12
+}
+item {
+  name: "下肢悬挂"
+  id: 13
+}
+item {
+  name: "饮水"
+  id: 14
+}
+item {
+  name: "抓食"
+  id: 15
+}
+item {
+  name: "其他"
+  id: 16
+}
+item {
+  name: "打架"
+  id: 17
+}
+item {
+  name: "追逐"
+  id: 18
+}
+item {
+  name: "理毛"
+  id: 19
+}

@@ -25,10 +25,11 @@ from .trident_roi_head import TridentRoIHead
 
 from .monkey_base_roi_head import monkey_BaseRoIHead
 from .monkey_base_roi_head_switch import monkey_BaseRoIHead_switch
+from .monkey_base_roi_head_hr2o import monkey_BaseRoIHead_HR2O
 from .monkey_standard_roi_head import monkey_StandardRoIHead
 from .monkey_standard_roi_head_switch import monkey_StandardRoIHead_switch
 from .monkey_standard_roi_head_switch_swBB import monkey_StandardRoIHead_switch_swBB
-
+from .monkey_standard_roi_head_hr2o import monkey_StandardRoIHead_HR2O
 
 __all__ = [
     'BaseRoIHead', 'CascadeRoIHead', 'DoubleHeadRoIHead', 'MaskScoringRoIHead',
@@ -42,6 +43,7 @@ __all__ = [
     'SCNetRoIHead', 'SCNetMaskHead', 'SCNetSemanticHead', 'SCNetBBoxHead',
     'FeatureRelayHead', 'GlobalContextHead',
     
-    'monkey_BaseRoIHead','monkey_BaseRoIHead_switch', 
-    'monkey_StandardRoIHead','monkey_StandardRoIHead_switch','monkey_StandardRoIHead_switch_swBB'
+    'monkey_BaseRoIHead','monkey_BaseRoIHead_switch', 'monkey_BaseRoIHead_HR2O',
+    'monkey_StandardRoIHead','monkey_StandardRoIHead_switch','monkey_StandardRoIHead_switch_swBB',
+    'monkey_StandardRoIHead_HR2O'
 ]

@@ -56,29 +56,41 @@ def init_distributed(local_rank, args, backend='nccl'):
     
     return rank, world_size
 
+
+
+
 '''
-BARR
-configs/detection/monkey/mix_r50_4x16x1_20e_ava_rgb_custom.py
-checkpoint/BARR_monkey_58.8.pth
+BAM_2class
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom_BAM_2class.py
+/data/ys/mmaction/work_dirs/monkey_BARN/interaction_2class/best_mAP@0.5IOU_epoch_26.pth
 
-ACRN
-configs/detection/monkey/mix_acrn.py
-checkpoint/ACRN_56.97.pth
+BARN
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py
+/data/ys/mmaction/work_dirs/monkey_BARN/inter2/best_mAP@0.5IOU_epoch_19.pth
 
-SlowOnly
-configs/detection/monkey/mix_slowonly_r50_4x16x1.py
-checkpoint/slowonly_56.72.pth
+
+baseline
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom_baseline.py
+/data/ys/mmaction/work_dirs/monkey_BARN/baseline/best_mAP@0.5IOU_epoch_12.pth
+
+
+slowonly
+configs/detection/monkey_interaction/mix_slowonly_r50_4x16x1.py
+/data/ys/mmaction/work_dirs/monkey_BARN/slowonly/epoch_5.pth
+
+acrn
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom_acrn.py
+/data/ys/mmaction/work_dirs/monkey_BARN/acrn/best_mAP@0.5IOU_epoch_14.pth
 '''
-
 
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MMAction2 test (and eval) a model')
-    parser.add_argument('--config', default="configs/detection/monkey/mix_r50_4x16x1_20e_ava_rgb_custom.py",help='train config file path')
-    parser.add_argument('--checkpoint', default='checkpoint/BARR_monkey_58.8.pth', help='checkpoint file')
-    parser.add_argument('--master_port', type=int, default=98018)
+    parser.add_argument('--config', default="configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py",help='train config file path')
+    parser.add_argument('--checkpoint', default='/data/ys/mmaction/work_dirs/monkey_BARN/inter2/best_mAP@0.5IOU_epoch_19.pth', help='checkpoint file')
+    parser.add_argument('--master_port', type=int, default=18001)
     parser.add_argument('--master_addr', type=str, default=socket.gethostbyname(socket.gethostname()))
-    parser.add_argument('--nproc_per_node', type=int, default=3)
+    parser.add_argument('--nproc_per_node', type=int, default=2)
     parser.add_argument('--nnodes', type=int, default=None)
     parser.add_argument('--node_rank', type=int, default=None)
     parser.add_argument(
@@ -413,7 +425,7 @@ def main(local_rank, args):
 
 
 if __name__ == '__main__':
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
     os.environ['RANK'] = '0'
     os.environ['WORLD_SIZE'] = '1'
     # main()

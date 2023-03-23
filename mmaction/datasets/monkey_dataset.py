@@ -103,7 +103,7 @@ class MonkeyDataset(BaseDataset):
                  start_index=0,
                  proposal_file=None,
                  person_det_score_thr=0.9,
-                 num_classes=17,
+                 num_classes=20,
                  custom_classes=None,
                  data_prefix=None,
                  test_mode=False,

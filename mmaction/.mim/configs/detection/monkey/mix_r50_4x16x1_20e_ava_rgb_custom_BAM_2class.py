@@ -24,6 +24,7 @@ model = dict(
             type='monkey_BBoxHeadAVA',
             in_channels=2304,
             num_classes=3,
+            topk=(1,),
             multilabel=False,
             dropout_ratio=0.5)),
     train_cfg=dict(
@@ -44,21 +45,23 @@ model = dict(
     test_cfg=dict(rcnn=dict(action_thr=0.002)))
 
 
-
 dataset_type = 'MonkeyDataset'
-data_root = 'data/monkey/frames/all_frames'
-anno_root = 'data/monkey/annotation_2class'
+data_root = '/new_data2/ys/all_frames'
+anno_root = 'data/monkey/annotation_interaction_2class'
 
 ann_file_train = f'{anno_root}/train.csv'
 ann_file_val = f'{anno_root}/val.csv'
+ann_file_test = f'{anno_root}/test.csv'
 
 exclude_file_train = None
 exclude_file_val = None
+exclude_file_test = None
 
 label_file = f'{anno_root}/monkey_action_list_index1.pbtxt'
 
 proposal_file_train = (f'{anno_root}/gd_bbox_train.pkl')
 proposal_file_val = f'{anno_root}/gd_bbox_val.pkl'
+proposal_file_test = f'{anno_root}/gd_bbox_test.pkl'
 
 img_norm_cfg = dict(
     mean=[114.,114.,114.], std=[57.375,57.375,57.375], to_bgr=False)
@@ -106,7 +109,7 @@ val_pipeline = [
 
 
 data = dict(
-    videos_per_gpu=20,
+    videos_per_gpu=16,
     workers_per_gpu=2,
     val_dataloader=dict(videos_per_gpu=1),
     test_dataloader=dict(videos_per_gpu=1),
@@ -133,6 +136,10 @@ data = dict(
         custom_classes=custom_classes,
         data_prefix=data_root))
 data['test'] = data['val']
+data['test']['ann_file'] = ann_file_test
+data['test']['exclude_file'] = exclude_file_test
+data['test']['proposal_file'] = proposal_file_test
+
 
 optimizer = dict(type='SGD', lr=0.1125, momentum=0.9, weight_decay=0.00001)
 # this lr is used for 8 gpus
@@ -147,7 +154,7 @@ lr_config = dict(
     warmup_by_epoch=True,
     warmup_iters=5,
     warmup_ratio=0.1)
-total_epochs = 60
+total_epochs = 30
 checkpoint_config = dict(interval=10)
 # workflow = []
 workflow = [('train', 1)]
@@ -159,9 +166,9 @@ log_config = dict(
     ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = ('/data/ys/mmaction/work_dirs/monkey/'
-            'mix_switch_swBB_group_2class')
-# load_from = '/data/ys/mmaction/work_dirs/monkey/acar_custom_all_bigBS/best_mAP@0.5IOU_epoch_8.pth'
-load_from = None
-resume_from = "/data/ys/mmaction/work_dirs/monkey/mix_switch_swBB_group_2class/best_mAP@0.5IOU_epoch_5.pth"
+work_dir = ('//data/ys/mmaction/work_dirs/monkey_BARN/'
+            'interaction_2class')
+load_from = '/home/yangsen/mycode/mmaction2-master/checkpoint/acar_SLOWFAST_R101_ACAR_HR2O_DEPTH1.pth.tar'
+# load_from = None
+resume_from = None
 find_unused_parameters = True

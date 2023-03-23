@@ -1,7 +1,14 @@
+mmcv-1.4.7.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+mmcv-1.4.7.dist-info/LICENSE,sha256=hm2ZnTypLSxdybCvyUHF-sZSni0YD8Y4J0-R9_zhYdc,11413
+mmcv-1.4.7.dist-info/LICENSES.md,sha256=P378I4EvnkgR-cWhnOA_JzpFxsCwOXyqjBbYtEdH30c,983
+mmcv-1.4.7.dist-info/METADATA,sha256=7DyyVK1EArLzdWD66xpiMjMRMJD30OJ9ieTKhG4M1wM,1054
+mmcv-1.4.7.dist-info/RECORD,,
+mmcv-1.4.7.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+mmcv-1.4.7.dist-info/WHEEL,sha256=WzZ8cwjh8l0jtULNjYq1Hpr-WCqCRgPr--TX4P5I1Wo,110
+mmcv-1.4.7.dist-info/top_level.txt,sha256=Aufj48GVfSrOGlgYCrvKtNY4F4A4c-Zw40_It01jmJU,5
 mmcv/__init__.py,sha256=W_qZfDsdtJzwQfCT8Rfb-Zqs3vG4ezU4R7aha4BRVmE,352
 mmcv/__pycache__/__init__.cpython-38.pyc,,
 mmcv/__pycache__/version.cpython-38.pyc,,
-mmcv/_ext.cpython-38-x86_64-linux-gnu.so,sha256=90yTWzzwmG9nTEzSc4ZYdLE-kNqAhWXKjox8io2NIa8,124473848
 mmcv/arraymisc/__init__.py,sha256=dtFwtGntWdqBsEsd-XJHiVlGp1X6FZWZAvfnnXru6NM,133
 mmcv/arraymisc/__pycache__/__init__.cpython-38.pyc,,
 mmcv/arraymisc/__pycache__/quantization.cpython-38.pyc,,
@@ -185,7 +192,7 @@ mmcv/ops/carafe.py,sha256=d0YKSbNzKST9J7fkHaPvfknZwdC7Rjfw2HHqh49rdfk,9899
 mmcv/ops/cc_attention.py,sha256=YSJ4YRw10YqZrkuttY7AR03WlmZf1nT_mNVpkl7GZm8,3046
 mmcv/ops/contour_expand.py,sha256=zX91bv_36ORNq1MD3IW-RdvtJwzP0sUEM3ezVcV_YkY,1794
 mmcv/ops/convex_iou.py,sha256=coaj6bhfhDaX2ADaI_vC15UXhE5XHe1-yx__WKOw600,1673
-mmcv/ops/corner_pool.py,sha256=VVpc0OWnZULV5-A9QxZlejfPslh6ruO-gamFJzAmUck,4440
+mmcv/ops/corner_pool.py,sha256=MHCpZmygGX_Xk3gFRcJACrJMYywEpctwaTKOv9L0RV0,4757
 mmcv/ops/correlation.py,sha256=iXcdppiLbwmu394Iv-MXh2ucMgzQH-cja-tutWK11Wk,6697
 mmcv/ops/csrc/common/box_iou_rotated_utils.hpp,sha256=1aaHp6ngevHU25ZbLP7ajoI7k71XtE2tLIc5irYmpbk,10273
 mmcv/ops/csrc/common/cuda/active_rotated_filter_cuda_kernel.cuh,sha256=eAHzcbloLWmguy4c2GkyVJTqufFVale0slHhfEI_azY,2227
@@ -209,7 +216,7 @@ mmcv/ops/csrc/common/cuda/knn_cuda_kernel.cuh,sha256=PzbhnpKtYdZcz9Jdw7iU39-tUnY
 mmcv/ops/csrc/common/cuda/masked_conv2d_cuda_kernel.cuh,sha256=C_8mFRC0ACmXwiMtzni5jy3Rys-sJeF7cj0h9OKGFB4,2409
 mmcv/ops/csrc/common/cuda/min_area_polygons_cuda.cuh,sha256=af3hTanfPeRyw05czy2HfEbB3NzYLc7f2VmtXUXVbqQ,7743
 mmcv/ops/csrc/common/cuda/modulated_deform_conv_cuda_kernel.cuh,sha256=87tHgaeVosWqHb75DNi--j74mLKAMBKc9AjUFOTjBV0,17255
-mmcv/ops/csrc/common/cuda/ms_deform_attn_cuda_kernel.cuh,sha256=TKO20i6QrZ0R693_jJ8Op2r5WC_cmQZqyHhH6nfi-Qo,33575
+mmcv/ops/csrc/common/cuda/ms_deform_attn_cuda_kernel.cuh,sha256=tI2aPVefVX69PhkB9xJrnsCcJzCvmBO37Md00UTe51U,33075
 mmcv/ops/csrc/common/cuda/nms_cuda_kernel.cuh,sha256=AvHT97pX1CzVWqgF8SQZFU-O_lO97o4cmCJpG_NpOho,2680
 mmcv/ops/csrc/common/cuda/nms_rotated_cuda.cuh,sha256=G3EnNQv3dm7zgKIJYjp3T1B99TGuAHU6d2isl0xNXK8,5172
 mmcv/ops/csrc/common/cuda/parrots_cudawarpfunction.cuh,sha256=OL-N33S22kDDpsMvgxdiGwHGf7BiOnbqvCspSc8HRf8,3424
@@ -232,7 +239,7 @@ mmcv/ops/csrc/common/cuda/sync_bn_cuda_kernel.cuh,sha256=Z3TfCX7rD6aexJkVe_TwSfT
 mmcv/ops/csrc/common/cuda/three_interpolate_cuda_kernel.cuh,sha256=l9PkxK0mh9Z8wqMJSw8Wl8GR3-Bvtf0-wVZmmn9WEu4,1804
 mmcv/ops/csrc/common/cuda/three_nn_cuda_kernel.cuh,sha256=kMdUAoXOAiM2_ZFqTpCWexSYAISxgbdh6hMbAv6jBNY,1728
 mmcv/ops/csrc/common/cuda/tin_shift_cuda_kernel.cuh,sha256=zjHqaGHQUyMHQGG735O6fqJi1Ot62AY5hgcvVV-3lO8,2161
-mmcv/ops/csrc/common/cuda/voxelization_cuda_kernel.cuh,sha256=oWHfzAYwO5Fs2Rmw64WzqjuuM8FnMOh8RqDm2x_Vq0k,7740
+mmcv/ops/csrc/common/cuda/voxelization_cuda_kernel.cuh,sha256=xH1dvAyTa2OM3goX3ll0l0tGAnktvfUQGvO0EFCCO2M,7739
 mmcv/ops/csrc/common/parrots_cpp_helper.hpp,sha256=ZLeu4SC-KPIBbp392ZJkKCwgrjdDKZ8N5ESEyAIS7rQ,1881
 mmcv/ops/csrc/common/parrots_cuda_helper.hpp,sha256=qxpG7ZmeSUSBJau6MbefT3zuZaOhXU3Rx8y0TsTYRmI,4353
 mmcv/ops/csrc/common/pytorch_cpp_helper.hpp,sha256=bRpIeWZqIMZpmsatr6Q_EtGvR52_ssqvjficDRx357Y,579
@@ -296,12 +303,15 @@ mmcv/ops/csrc/parrots/carafe_naive_parrots.cpp,sha256=GUfkQ8dEybKGv49gw1SG1BB2x9
 mmcv/ops/csrc/parrots/carafe_naive_pytorch.h,sha256=j2xBXyTiuBrbO1HvgsVjK8Bdte2Cpdlk56ITmtj93is,652
 mmcv/ops/csrc/parrots/carafe_parrots.cpp,sha256=wSue25-DyfqHLyFJs_cu-nULNfImwQ5pv06ik51Vjz4,3164
 mmcv/ops/csrc/parrots/carafe_pytorch.h,sha256=m-9eukDDoGJe5uqjkXEpoawhty_aDDw_LT53p-R21cM,750
-mmcv/ops/csrc/parrots/contour_expand.cpp,sha256=MZaHly5Mt6Z2PTr3MTUNOn-BHE5I3Ow6dimsUdITodU,3290
+mmcv/ops/csrc/parrots/contour_expand.cpp,sha256=xjsO1OBxWdg6qW3Z_8tgu07kfiy1a8amqxpwyt51tXc,3353
 mmcv/ops/csrc/parrots/contour_expand_parrots.cpp,sha256=OFjPVQTUNEMzxLTYP3uRtQ5Z8zFrkmoD5WMsHSrWhVk,1456
 mmcv/ops/csrc/parrots/contour_expand_pytorch.h,sha256=qvlMzhAE1VrVBHFp9rNH6nEfn9UxOPfYD3uymMSBhrs,469
 mmcv/ops/csrc/parrots/convex_iou.cpp,sha256=doIwwPwCUMYGkxbLsQtSqumoTsTsvGEfZFrxnKPLr28,838
 mmcv/ops/csrc/parrots/convex_iou_parrots.cpp,sha256=B7Wnz2KslRedaLMAfCkYrJNukQbgrvu-DeMP-Vb3B-I,1307
 mmcv/ops/csrc/parrots/convex_iou_pytorch.h,sha256=uMwJvwmeM7A4edw70oZBf1mWv5WrGz_cEDahHg5Ndss,356
+mmcv/ops/csrc/parrots/corner_pool.cpp,sha256=eHZxht9lHifEztFIg-WOltsa4uyBMIm-NFlrDc5zY5A,8121
+mmcv/ops/csrc/parrots/corner_pool_parrots.cpp,sha256=LxUFq6f36yJrTinoFzZpnutICtKabQs7UK-G1BcIzaI,7976
+mmcv/ops/csrc/parrots/corner_pool_pytorch.h,sha256=hIzyFRLYeUuQ71hBr0o6ZjAUIhfE7gX2dBTN7EvX1ZQ,660
 mmcv/ops/csrc/parrots/correlation.cpp,sha256=_gsKhLvF6bv6C1uguDWkymAed5FrOWBoRHhJ4z4xAfY,2560
 mmcv/ops/csrc/parrots/correlation_parrots.cpp,sha256=ezLKdJC_go4b44aXhjCu1LlrUx6O5F0fZVrgENPK2YU,5873
 mmcv/ops/csrc/parrots/correlation_pytorch.h,sha256=OCnkBAmcFPccukcKIjhM6XrYkCcQZy3SSKFok6LkyKo,856
@@ -408,6 +418,7 @@ mmcv/ops/csrc/pytorch/carafe.cpp,sha256=Qd24nbI38-vSkKAbnFnWbFaPDuOheuGmkdXxIWRg
 mmcv/ops/csrc/pytorch/carafe_naive.cpp,sha256=urWcCmT6uzyZTfbpx0xmD4rNWEQykCVMqrFiN7nRBgI,1559
 mmcv/ops/csrc/pytorch/contour_expand.cpp,sha256=MZaHly5Mt6Z2PTr3MTUNOn-BHE5I3Ow6dimsUdITodU,3290
 mmcv/ops/csrc/pytorch/convex_iou.cpp,sha256=doIwwPwCUMYGkxbLsQtSqumoTsTsvGEfZFrxnKPLr28,838
+mmcv/ops/csrc/pytorch/corner_pool.cpp,sha256=eHZxht9lHifEztFIg-WOltsa4uyBMIm-NFlrDc5zY5A,8121
 mmcv/ops/csrc/pytorch/correlation.cpp,sha256=_gsKhLvF6bv6C1uguDWkymAed5FrOWBoRHhJ4z4xAfY,2560
 mmcv/ops/csrc/pytorch/cpu/active_rotated_filter.cpp,sha256=i15OWc1R-wpb6mTgMxgyuFtMWWcEtvG4LJkSYM0bfaw,4965
 mmcv/ops/csrc/pytorch/cpu/box_iou_rotated.cpp,sha256=qK69brcNz7dImZ1GwLwAUgDeaXypeQSbERXbeXhx5YM,1566
@@ -415,7 +426,7 @@ mmcv/ops/csrc/pytorch/cpu/deform_conv.cpp,sha256=2E76a6Vow0VgY21RaeCnubeGQphr-d1
 mmcv/ops/csrc/pytorch/cpu/modulated_deform_conv.cpp,sha256=BmrJokv9BYd4jVO2lsnkU0sAzwAch5gXnhWobY9fEpM,20255
 mmcv/ops/csrc/pytorch/cpu/nms.cpp,sha256=eYpm6e7nfr9EsVh-PLvyMrRjwNpR_KM-2XxSVhBs0yY,7278
 mmcv/ops/csrc/pytorch/cpu/nms_rotated.cpp,sha256=wcjZ6VUB1R704bo8dnezrz4fvH4crqDjOextgELoBJs,2347
-mmcv/ops/csrc/pytorch/cpu/pixel_group.cpp,sha256=NtaViie8mVKFXEpNWuq7EzSo-JdO1w5FceWip6F3lE4,4810
+mmcv/ops/csrc/pytorch/cpu/pixel_group.cpp,sha256=0qLu-JOTY_yEiM849wPFjsyNk1mpcscVAtun-ZsFJRI,4802
 mmcv/ops/csrc/pytorch/cpu/points_in_boxes.cpp,sha256=GtreE5Gw4tBJxDwrSbhLn6qXr-ZJEP6Me05uWHNGZvk,2136
 mmcv/ops/csrc/pytorch/cpu/psamask.cpp,sha256=Ai5xsEp7s24FAeQmjXMDI_9zsdjm-3KNypWlqvOnFsA,9213
 mmcv/ops/csrc/pytorch/cpu/roi_align.cpp,sha256=RsRFDtIId0GtYhRXJbt1uUB_I1nehr5BJ1_X5Vda9Lg,18587
@@ -448,7 +459,7 @@ mmcv/ops/csrc/pytorch/cuda/knn_cuda.cu,sha256=_2OCNiOA_lfnCI8VlSIyRsomeiywoXOkzw
 mmcv/ops/csrc/pytorch/cuda/masked_conv2d_cuda.cu,sha256=WFVkNN-7Qw5ylq8nIRNeuOoiwPJX1XxBBj-dVc29dVg,2627
 mmcv/ops/csrc/pytorch/cuda/min_area_polygons.cu,sha256=6QSdrpeWYqVRaOTkPyj63dV7Yic2kQuPo1mmhINWewU,964
 mmcv/ops/csrc/pytorch/cuda/modulated_deform_conv_cuda.cu,sha256=m80oPG9lpuNCrYKv1bXqy046Fd52JAj5ZE38Efl6Jic,5100
-mmcv/ops/csrc/pytorch/cuda/ms_deform_attn_cuda.cu,sha256=YUO2vXMTVTKykZEsG90PliUbX44KpyDrIeoo1gv3Scg,18307
+mmcv/ops/csrc/pytorch/cuda/ms_deform_attn_cuda.cu,sha256=N7o___0q71J-kOL36w53WKGUtK2k4e5ygUHd-Hth-IQ,18911
 mmcv/ops/csrc/pytorch/cuda/nms_cuda.cu,sha256=hzNWZCGBO3wCCGzeAxAgIZ8sqPz56MsnhxivV4CH_r8,1970
 mmcv/ops/csrc/pytorch/cuda/nms_rotated_cuda.cu,sha256=xRHf4FSVy4m2Ku3xyYFgSv8Q0Qq2hmfxILjUvhqXzSk,2303
 mmcv/ops/csrc/pytorch/cuda/points_in_boxes_cuda.cu,sha256=KMx-HkIfXAlCUtkB74zBftBjsOka5Z8i05BlCyBBDCs,2675
@@ -494,7 +505,7 @@ mmcv/ops/csrc/pytorch/pixel_group.cpp,sha256=1fUuzMqY_KWqGbLgoBzsRIxX9vrOkNhJcxg
 mmcv/ops/csrc/pytorch/points_in_boxes.cpp,sha256=JClZmxWlnDQvxgwxEZGeIvofLl5RQ7XKq9loIb-dFzk,2248
 mmcv/ops/csrc/pytorch/points_in_polygons.cpp,sha256=rnXzk1jKk3-1LTbBUsSLQz0t1GVb0Egob-cXB7sM164,615
 mmcv/ops/csrc/pytorch/psamask.cpp,sha256=qt49DXqQQhyKArBZA1vl_fLU5zUYuyg5MbQ-p3A-PZE,2136
-mmcv/ops/csrc/pytorch/pybind.cpp,sha256=pQNReDgFLT88IZun65qFikdg6AYapjyVyRwDP_ovNpA,47270
+mmcv/ops/csrc/pytorch/pybind.cpp,sha256=je1bdLDXCG_5y-Np_Q-ccgB9KuwyrKqKQQ2uFS6j4es,48950
 mmcv/ops/csrc/pytorch/riroi_align_rotated.cpp,sha256=0aExGJSxkDm0g-0Ln_xPkxVPQrYHY0ig70b3Zo5NF7M,2344
 mmcv/ops/csrc/pytorch/roi_align.cpp,sha256=NzfGYWPEUciW7WgVh4JV1znSXy4DM4U4YcPW6hKPx5Q,2230
 mmcv/ops/csrc/pytorch/roi_align_rotated.cpp,sha256=Gj9AK0kW2RMxpswcVwPKw6LvWeddf8ZQXlt0-WWZqxo,2214
@@ -603,7 +614,7 @@ mmcv/parallel/_functions.py,sha256=Kt7pDY0gxV1p5FJcDC0xTduAfKhoNb378j_Qhyi1hJY,2
 mmcv/parallel/collate.py,sha256=-ZWYuqhWEZ0uCDHtHkf6IyPkRnbyC9LXWerZh0CbmWo,3665
 mmcv/parallel/data_container.py,sha256=6HmIMkF1EiZqN_ublVqFZiKbrUqe0sksrG9wWr5R4yg,2365
 mmcv/parallel/data_parallel.py,sha256=FQtR_waoSp0rRC_arG03Mg5yUF84I1L6Jyma2OE2H10,4306
-mmcv/parallel/distributed.py,sha256=yFcDD9bfJ_ZsvVZYaw72RqDGWflgFaycr6eoVTGOGbI,5917
+mmcv/parallel/distributed.py,sha256=3V9DPya17Fo8ReOLEiAMk79mdN_9VBmydPbwLNWryKE,4817
 mmcv/parallel/distributed_deprecated.py,sha256=-wqyNO3eclXxJApTJtl1XD43Psj2WUpfnoNLSElFlmg,2817
 mmcv/parallel/registry.py,sha256=ymJBu_6dDOnKD0dgIB7iLeN0C6ZKAwg0i106cj8gE2I,312
 mmcv/parallel/scatter_gather.py,sha256=t22R6ZhVGsYmZQ7eAsR9r9FCTFpTQ92FxHM7UNwdrYc,2307
@@ -714,7 +725,7 @@ mmcv/utils/__pycache__/testing.cpython-38.pyc,,
 mmcv/utils/__pycache__/timer.cpython-38.pyc,,
 mmcv/utils/__pycache__/trace.cpython-38.pyc,,
 mmcv/utils/__pycache__/version_utils.cpython-38.pyc,,
-mmcv/utils/config.py,sha256=zMfIhDI2umlgF77I8FGxErQHJ30rZfsBLu10KEd3_ZI,26923
+mmcv/utils/config.py,sha256=gO82jyjBeFhLVbBeGJPgcmg44vkLPWc9-oLgUSte3h8,26780
 mmcv/utils/env.py,sha256=Yhpd2qquWOEsJhdGCOZ19CTD3QQXSAKQamXEEc3Od68,3299
 mmcv/utils/ext_loader.py,sha256=ilbE4SGnb_JqYoEirVe7j6GrRHiyNWIWAA1FNHHDiPQ,2021
 mmcv/utils/hub.py,sha256=8CLNZKatBZElExYFhQsJFOpJVNe3tOiVwcLvDoR_63g,6087
@@ -730,7 +741,7 @@ mmcv/utils/testing.py,sha256=dlsbUF6s6YEEXye0IvQe5EkyOQ_65TNq9TwxHVniBvg,4290
 mmcv/utils/timer.py,sha256=uADc-fhK8aKYHFBw7n-Yo5NVp_hm7BbQioZvkkSAqMk,3062
 mmcv/utils/trace.py,sha256=xgLj36aqVvPmw2GAlXRkS27g0zHOANuIxVSlSehpTwo,823
 mmcv/utils/version_utils.py,sha256=Gm3B5YROCX92dO8yAu7aN61OWhJUgPL4LaOC7ja67rU,2673
-mmcv/version.py,sha256=vfsuSUhWbx3dkb8s2ApohQvdZCNB6TmJ0UpcqdKqamc,1176
+mmcv/version.py,sha256=M642k2gEMM0RjvBcIwP9MIn8sv_rQdJIrltN7mw_eQ8,1176
 mmcv/video/__init__.py,sha256=dgCg7tSL73ADxC-vnq1XUEjTIuSOJitU3OIZnFqpWEw,570
 mmcv/video/__pycache__/__init__.cpython-38.pyc,,
 mmcv/video/__pycache__/io.cpython-38.pyc,,
@@ -747,12 +758,3 @@ mmcv/visualization/__pycache__/optflow.cpython-38.pyc,,
 mmcv/visualization/color.py,sha256=h6WoUzTCLL8HbeyCrAfVvrEvDHdfDsAyj9h4Pge88dA,1361
 mmcv/visualization/image.py,sha256=uED8rlPBFRsPf8ovj3gc7WVTQRoETnXGEqCl8Cf9SaY,5125
 mmcv/visualization/optflow.py,sha256=j-s8OnmZuA7qrT2g0Yr38sE9UdczCD8ctTqgMALGukU,3349
-mmcv_full-1.4.8.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
-mmcv_full-1.4.8.dist-info/LICENSE,sha256=hm2ZnTypLSxdybCvyUHF-sZSni0YD8Y4J0-R9_zhYdc,11413
-mmcv_full-1.4.8.dist-info/LICENSES.md,sha256=P378I4EvnkgR-cWhnOA_JzpFxsCwOXyqjBbYtEdH30c,983
-mmcv_full-1.4.8.dist-info/METADATA,sha256=XjIjN5w7opHsGktE7BiThlKUNgg4Xdmko83-h5oqcjc,2328
-mmcv_full-1.4.8.dist-info/RECORD,,
-mmcv_full-1.4.8.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
-mmcv_full-1.4.8.dist-info/WHEEL,sha256=w1d_q2QQYYWFjc1BOr71GnX8BifSnUvEochN_fqB7tA,108
-mmcv_full-1.4.8.dist-info/direct_url.json,sha256=jm8BjLw69SX6Am1tuXBQQjil8x_hHtjmd8bZPF3LkPM,124
-mmcv_full-1.4.8.dist-info/top_level.txt,sha256=Aufj48GVfSrOGlgYCrvKtNY4F4A4c-Zw40_It01jmJU,5

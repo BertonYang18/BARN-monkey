@@ -51,13 +51,26 @@ def init_distributed(local_rank, args, backend='nccl'):
     
     return rank, world_size
 
+'''
+BARN
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py
+
+BAM
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom_BAM_2class.py
+
+slowonly
+configs/detection/monkey_interaction/mix_slowonly_r50_4x16x1.py
+
+acrn
+configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom_acrn.py
+'''
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a recognizer')
-    parser.add_argument('--config', default="configs/detection/monkey/mix_r50_4x16x1_20e_ava_rgb_custom.py",help='train config file path')
-    parser.add_argument('--master_port', type=int, default=19801)
+    parser.add_argument('--config', default="configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py",help='train config file path')
+    parser.add_argument('--master_port', type=int, default=19002)
     parser.add_argument('--master_addr', type=str, default=socket.gethostbyname(socket.gethostname()))
-    parser.add_argument('--nproc_per_node', type=int, default=3)
+    parser.add_argument('--nproc_per_node', type=int, default=2)
     parser.add_argument('--nnodes', type=int, default=None)
     parser.add_argument('--node_rank', type=int, default=None)
     parser.add_argument('--work-dir', help='the dir to save logs and models')
@@ -89,7 +102,7 @@ def parse_args():
         '--gpu-ids',
         type=int,
         nargs="+",
-        default=[0,1,2],
+        default=[0,1],
         help='ids of gpus to use '
         '(only applicable to non-distributed training)')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
@@ -266,7 +279,7 @@ def main(local_rank, args):
 
 
 if __name__ == '__main__':
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
     args = parse_args()
     torch.multiprocessing.spawn(main, args=(args,), nprocs=args.nproc_per_node)
 

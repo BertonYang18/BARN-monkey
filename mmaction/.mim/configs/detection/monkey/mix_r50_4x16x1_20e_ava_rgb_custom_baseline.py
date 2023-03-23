@@ -62,7 +62,7 @@ model = dict(
     test_cfg=dict(rcnn=dict(action_thr=0.002)))
 
 dataset_type = 'MonkeyDataset'
-data_root = 'data/monkey/frames/all_frames'
+data_root = '/data/ys/monkey/alldata/frames/all_frames'
 anno_root = 'data/monkey/annotation_mix'
 
 ann_file_train = f'{anno_root}/train.csv'

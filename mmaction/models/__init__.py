@@ -28,7 +28,7 @@ from .skeleton_gcn import BaseGCN, SkeletonGCN
 from .heads import (monkey_BBoxHeadAVA, monkey_BBoxHeadAVA_acar, monkey_BBoxHeadAVA_switch,
                     monkey_BBoxHeadAVA_switch_group,monkey_BBoxHeadAVA_switch_group_newloss,
                     monkey_BBoxHeadAVA_switch_group_16cat16,
-                    monkey_AVARoIHead, monkey_AVARoIHead_acar_HR2O, monkey_AVARoIHead_switch,
+                    monkey_AVARoIHead, monkey_AVARoIHead_switch,
                     monkey_AVARoIHead_switch_group_swBB )
 __all__ = [
     'BACKBONES', 'HEADS', 'RECOGNIZERS', 'build_recognizer', 'build_head',
@@ -52,6 +52,6 @@ __all__ = [
     'monkey_BBoxHeadAVA_switch_group',"monkey_BBoxHeadAVA_switch_group_newloss",
     "monkey_BBoxHeadAVA_switch_group_16cat16",
     
-     'monkey_AVARoIHead', 'monkey_AVARoIHead_acar_HR2O', 'monkey_AVARoIHead_switch',
+     'monkey_AVARoIHead', 'monkey_AVARoIHead_switch',
      'monkey_AVARoIHead_switch_group_swBB'
 ]

@@ -26,8 +26,8 @@ class monkey_BaseRoIHead(BaseModule, metaclass=ABCMeta):
             shared_head.pretrained = pretrained
             self.shared_head = build_shared_head(shared_head)
 
-        # if bbox_head is not None:
-        #     self.init_bbox_head(bbox_roi_extractor, bbox_head)
+        if bbox_head is not None:
+            self.init_bbox_head(bbox_roi_extractor, bbox_head)
 
         if mask_head is not None:
             self.init_mask_head(mask_roi_extractor, mask_head)

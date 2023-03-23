@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: mmcv-full
-Version: 1.4.8
+Name: mmcv
+Version: 1.4.7
 Summary: OpenMMLab Computer Vision Foundation
 Home-page: https://github.com/open-mmlab/mmcv
 Author: MMCV Contributors
@@ -28,38 +28,9 @@ Requires-Dist: yapf
 Requires-Dist: opencv-python (>=3)
 Requires-Dist: regex ; sys_platform == "win32"
 Provides-Extra: all
-Requires-Dist: pytest-runner ; extra == 'all'
-Requires-Dist: ninja ; extra == 'all'
-Requires-Dist: addict ; extra == 'all'
-Requires-Dist: numpy ; extra == 'all'
-Requires-Dist: packaging ; extra == 'all'
-Requires-Dist: Pillow ; extra == 'all'
-Requires-Dist: pyyaml ; extra == 'all'
-Requires-Dist: yapf ; extra == 'all'
-Requires-Dist: coverage ; extra == 'all'
-Requires-Dist: lmdb ; extra == 'all'
-Requires-Dist: onnx (==1.7.0) ; extra == 'all'
-Requires-Dist: onnxoptimizer ; extra == 'all'
-Requires-Dist: onnxruntime (>=1.8.0) ; extra == 'all'
-Requires-Dist: pytest ; extra == 'all'
-Requires-Dist: PyTurboJPEG ; extra == 'all'
-Requires-Dist: scipy ; extra == 'all'
-Requires-Dist: tifffile ; extra == 'all'
-Requires-Dist: regex ; (sys_platform == "win32") and extra == 'all'
 Provides-Extra: build
-Requires-Dist: pytest-runner ; extra == 'build'
 Provides-Extra: optional
-Requires-Dist: ninja ; extra == 'optional'
 Provides-Extra: tests
-Requires-Dist: coverage ; extra == 'tests'
-Requires-Dist: lmdb ; extra == 'tests'
-Requires-Dist: onnx (==1.7.0) ; extra == 'tests'
-Requires-Dist: onnxoptimizer ; extra == 'tests'
-Requires-Dist: onnxruntime (>=1.8.0) ; extra == 'tests'
-Requires-Dist: pytest ; extra == 'tests'
-Requires-Dist: PyTurboJPEG ; extra == 'tests'
-Requires-Dist: scipy ; extra == 'tests'
-Requires-Dist: tifffile ; extra == 'tests'
 
 UNKNOWN
 

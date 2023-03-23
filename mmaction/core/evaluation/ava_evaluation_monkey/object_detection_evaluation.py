@@ -278,7 +278,8 @@ class ObjectDetectionEvaluator(DetectionEvaluator):
                'PerformanceByCategory/mAP@<matching_iou_threshold>IOU/category'
         """
         (per_class_ap, mean_ap, _, _, per_class_corloc,
-         mean_corloc) = self._evaluation.evaluate()
+         mean_corloc), ( selcet_precisions_per_class, selcet_recalls_per_class, fpr_per_class,
+        fnr_per_class, auc) = self._evaluation.evaluate()
 
         metric = f'mAP@{self._matching_iou_threshold}IOU'
         pascal_metrics = {self._metric_prefix + metric: mean_ap}
@@ -307,7 +308,29 @@ class ObjectDetectionEvaluator(DetectionEvaluator):
                                            self._label_id_offset]['name'],
                         ))
                     pascal_metrics[display_name] = per_class_corloc[idx]
-
+        '''FPR@0.5threshold'''
+        for idx in range(len(fpr_per_class)):
+            if idx + self._label_id_offset in category_index:
+                display_name = (
+                    self._metric_prefix +
+                    'PerformanceByCategory/FPR@0.5threshold@{}IOU/{}'.format(
+                        self._matching_iou_threshold,
+                        category_index[idx + self._label_id_offset]['name'],
+                    ))
+                pascal_metrics[display_name] = fpr_per_class[idx][1]
+        '''FPR@top5'''
+        for idx in range(len(fpr_per_class)):
+            if idx + self._label_id_offset in category_index:
+                display_name = (
+                    self._metric_prefix +
+                    'PerformanceByCategory/FPR@top5@{}IOU/{}'.format(
+                        self._matching_iou_threshold,
+                        category_index[idx + self._label_id_offset]['name'],
+                    ))
+                pascal_metrics[display_name] = fpr_per_class[idx][2][2] # [0]-top1  [1]-top3  [2]-top5
+        '''auc'''
+        metric_auc = f'AUC@{self._matching_iou_threshold}IOU'
+        pascal_metrics[self._metric_prefix + metric_auc] = auc
         return pascal_metrics
 
     def clear(self):
@@ -345,6 +368,16 @@ ObjectDetectionEvalMetrics = collections.namedtuple(
     ],
 )
 
+MonkeyDetectionEvalMetrics = collections.namedtuple(
+    'MonkeyDetectionEvalMetrics',
+    [
+        "selcet_precisions_per_class",
+        "selcet_recalls_per_class",
+        "fpr_per_class",
+        "fnr_per_class",
+        "auc"
+    ],
+)
 
 class ObjectDetectionEvaluation:
     """Internal implementation of Pascal object detection metrics."""
@@ -388,6 +421,10 @@ class ObjectDetectionEvaluation:
         self.recalls_per_class = []
         self.corloc_per_class = np.ones(self.num_class, dtype=float)
 
+        self.selcet_precisions_per_class = []
+        self.selcet_recalls_per_class = []
+        self.fpr_per_class = []
+        self.fnr_per_class = []
     def clear_detections(self):
         self._initialize_detections()
 
@@ -491,6 +528,8 @@ class ObjectDetectionEvaluation:
             if scores[i].shape[0] > 0:
                 self.scores_per_class[i].append(scores[i])
                 self.tp_fp_labels_per_class[i].append(tp_fp_labels[i])
+                
+
 
     def _update_ground_truth_statistics(self, groundtruth_class_labels):
         """Update grouth truth statitistics.
@@ -503,8 +542,8 @@ class ObjectDetectionEvaluation:
         for label in groundtruth_class_labels:
             count[label] += 1
         for k in count:
-            self.num_gt_instances_per_class[k] += count[k]
-            self.num_gt_imgs_per_class[k] += 1
+            self.num_gt_instances_per_class[k] += count[k] # the num of every label
+            self.num_gt_imgs_per_class[k] += 1 # the num of imgs corresponding to every label
 
     def evaluate(self):
         """Compute evaluation result.
@@ -530,6 +569,11 @@ class ObjectDetectionEvaluation:
             all_scores = np.array([], dtype=float)
             all_tp_fp_labels = np.array([], dtype=bool)
 
+        num_gt_instances_all_class = np.sum(self.num_gt_instances_per_class)  #
+        # convert_scores = []
+        # convert_labels = []
+        ROC_all_class = []
+        ROC_per_class = []
         for class_index in range(self.num_class):
             if self.num_gt_instances_per_class[class_index] == 0:
                 continue
@@ -552,6 +596,29 @@ class ObjectDetectionEvaluation:
                 precision, recall)
             self.average_precision_per_class[class_index] = average_precision
 
+            '''scores/labels of all class after cat'''
+            # convert_scores.append(scores)
+            # convert_labels.append(tp_fp_labels)
+           
+            ROC_per_class = metrics.compute_roc_auc_score(scores, tp_fp_labels)
+            ROC_per_class = np.array(ROC_per_class)
+            ROC_all_class.append(ROC_per_class)
+
+            '''TPR FPR'''
+            num_Truth_per_class = self.num_gt_instances_per_class[class_index] 
+            num_False_per_class = num_gt_instances_all_class - num_Truth_per_class 
+
+            (_, _, fpr, fnr), (thr_precision, thr_recall, thr_fpr, thr_fnr), (k_precisions, k_recalls, k_fprs, k_fnrs) = metrics.compute_fpr_fnr(
+                scores, tp_fp_labels,
+                num_Truth_per_class,
+                num_False_per_class,
+                top_k=(1,3,5),
+                thr=0.5)
+            self.selcet_precisions_per_class.append([thr_precision, k_precisions])
+            self.selcet_recalls_per_class.append([thr_recall, k_recalls])
+            self.fpr_per_class.append([fpr, thr_fpr, k_fprs])
+            self.fnr_per_class.append([fnr, thr_fnr, k_fnrs])
+
         self.corloc_per_class = metrics.compute_cor_loc(
             self.num_gt_imgs_per_class,
             self.num_images_correctly_detected_per_class)
@@ -564,6 +631,11 @@ class ObjectDetectionEvaluation:
         else:
             mean_ap = np.nanmean(self.average_precision_per_class)
         mean_corloc = np.nanmean(self.corloc_per_class)
+
+        '''AUC'''
+        # auc = metrics.compute_roc_auc_score(convert_scores, convert_labels)
+        auc = metrics.compute_AUC(ROC_all_class)
+
         return ObjectDetectionEvalMetrics(
             self.average_precision_per_class,
             mean_ap,
@@ -571,4 +643,10 @@ class ObjectDetectionEvaluation:
             self.recalls_per_class,
             self.corloc_per_class,
             mean_corloc,
+        ),  MonkeyDetectionEvalMetrics(
+            self.selcet_precisions_per_class,
+            self.selcet_recalls_per_class,
+            self.fpr_per_class,
+            self.fnr_per_class,
+            auc
         )

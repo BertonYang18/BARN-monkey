@@ -322,64 +322,7 @@ def ava_eval(result_file,
     if verbose:
         print_time('convert detections', start)
 
-    #混淆矩阵
-    '''
-    numclass = 16  
-    json_label_path = "mmaction/core/evaluation/ava_evaluation_monkey/class_index.json"
-    assert os.path.exists(json_label_path), "cannot find {} file".format(json_label_path)
-    json_file = open(json_label_path, 'r')
-    class_indict = json.load(json_file)
-    labels_name = [label for _, label in class_indict.items()]
-    #处理预测结果: boxes, labels, scores
-    new_score = {}
-    for k, v in scores.items():
-        pd_bboxes = sorted(list(set(boxes[k])), key=lambda tup: (tup[0], tup[1], tup[2], tup[3]))
-        pd_labels = labels[k]
-        n = []
-        #n[i]: 各bbox预测输出score的个数
-        for i in pd_bboxes:
-            n.append(boxes[k].count(i))
-        #n_sum[i]: n的前i项和   n[1 2 3] --n_sum[0 1 3 6]
-        n_sum = [0]
-        for i in range(len(n)):
-            n_sum.append(n[i] + n_sum[i])
-        frame_predict_list = []  #当前帧的预测结果:  [[2,8], [7], [16]]
-        for i in range(len(n)):
-            bbox_label = pd_labels[n_sum[i]: n_sum[i+1]]
-            bbox_score = v[n_sum[i]: n_sum[i+1]]
-            bbox_label_pre = []  #当前bbox的预测结果 :  [2,8]
-            for a in range(len(bbox_score)):
-                if bbox_score[a] >=0.5:
-                    label_pre = bbox_label[a]  #真实标签
-                    bbox_label_pre.append(label_pre) #a+1:真实标签
-            if bbox_label_pre == []:
-                bbox_max_score = max(bbox_score)
-                ind = bbox_score.index(bbox_max_score)
-                label_pre = bbox_label[ind]
-                bbox_label_pre.append(label_pre)          
-            frame_predict_list.append(bbox_label_pre)
-        new_score[k] = frame_predict_list
-
-    #整合gt_label : gt_boxes [a,a,b]  gt_labels [2,8,5]  ->  [a, b] & [[2,8], 5]
-    new_gt_labels={}
-    for k, v in gt_boxes.items():
-        gt_boxes_frame = gt_boxes[k]
-        gt_labels_frame = gt_labels[k]
-        pre_label_frame = new_score[k]
-        bboxes = sorted(list(set(v)), key=lambda tup: (tup[0], tup[1], tup[2], tup[3]))
-        new_gt_label = [[] for i in range(len(bboxes))]
-        for q_bbox, t_gt_label in zip(gt_boxes_frame, gt_labels_frame):
-            q_ind = bboxes.index(q_bbox)
-            new_gt_label[q_ind].append(t_gt_label)
-        new_gt_labels[k] = new_gt_label
-        
-    new_gt_labels=new_gt_labels
-    new_score=new_score
-    # confusion = ConfusionMatrix(num_classes=numclass, labels=labels_name)
-    # confusion.update(new_score, new_gt_labels)
-    # confusion.plot(result_file)
-    # confusion.summary()
-    '''
+ 
     start = time.time()
     metrics = pascal_evaluator.evaluate()
     if verbose:

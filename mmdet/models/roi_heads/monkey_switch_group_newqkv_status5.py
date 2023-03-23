@@ -64,10 +64,11 @@ class monkey_switch_group_newQKV_status5(nn.Module):
             status2 = torch.cat((actor_guide[:,1].reshape(n_rois, 1), actor_bboxs), dim=1)  #(124,2) + (124,4) -> (124, 6)
             status2 = status2.unsqueeze(2).unsqueeze(2).expand(n_rois,self.status_dim,H,W)  # ->(124,6,8,8)
 
-            # status1 = actor_bboxs  #(124,2) + (124,4) -> (124, 6)
-            # status1 = status1.unsqueeze(2).unsqueeze(2).expand(n_rois,self.status_dim,H,W)  # ->(124,6,8,8)
-            # status2 = actor_bboxs  #(124,2) + (124,4) -> (124, 6)
-            # status2 = status2.unsqueeze(2).unsqueeze(2).expand(n_rois,self.status_dim,H,W)  # ->(124,6,8,8)
+            # status1 = actor_guide[:,0].reshape(n_rois, 1) 
+            # status1 = status1.unsqueeze(2).unsqueeze(2).expand(n_rois,self.status_dim,H,W)  
+            # status2 = actor_guide[:,1].reshape(n_rois, 1) 
+            # status2 = status2.unsqueeze(2).unsqueeze(2).expand(n_rois,self.status_dim,H,W) 
+
             #q1 q2
             #query = self.conv_q(status).unsqueeze(1)
             query1 = self.conv_q1(status1).unsqueeze(1)  # ->(124,512,8,8) ->(124,1,512,8,8)

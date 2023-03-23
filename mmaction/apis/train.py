@@ -229,7 +229,8 @@ def train_model(model,
     if cfg.omnisource:
         runner_kwargs = dict(train_ratio=train_ratio)
     
-    ckt_pwd = '/data/ys/mmaction/work_dirs/monkey/mix_switch_swBB_group_2class/swBB_after_change.pth'
+   
+    ckt_pwd = '/data/ys/mmaction/work_dirs/monkey_BARN/interaction_2class_v2/swBB_after_change_interaction.pth'
     checkpoint = torch.load(ckt_pwd, map_location=lambda storage, loc: storage.cuda())
 
     model_dict = model.state_dict()  
@@ -288,8 +289,8 @@ def train_model(model,
                 if  'switch_backbone' not in net_list[i-1]:
                     just = False
                     start_num = i
-        # if 'head'  in n:
-        #     end_num = i      
+        if 'head'  in n:  # freeze all layers  (backbone & head)
+            end_num = i      
     # print(net_list[start_num:end_num+1])   #len==662
     # print(para_list[start_num:end_num+1])  #len==332
     for i,p in enumerate(model.parameters()):
