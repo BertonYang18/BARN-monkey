@@ -1,11 +1,14 @@
+## Introduction
 BARN is based on the code platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
 
 
 ![monkey_BARN_demo](https://user-images.githubusercontent.com/53562283/227211342-cdb51882-9316-491a-9c8e-ee8bf0be248f.gif)
 <div align="center">
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
+  <p style="font-size:1.5vw;">Visualization results of the bounding boxes, identity, movement trajectories and behaviors of macaques for two videos. The bounding box and movement trajectory of each macaque are drawn in the color of its collar. The identities and behaviors of macaques are separated by '#', and the simultaneous behavior is separated by '-'.</p>
+  <p style="font-size:1.5vw;">identities including yellow, green, red, black, white (0~4)</p>
+  <p style="font-size:1.5vw;">behaviors is shown in the paper (0~18)</p>
   </div>
-
 
 ## Note
 
