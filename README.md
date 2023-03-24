@@ -26,7 +26,7 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
 |mix_r50_4x16x1_20e_ava_rgb_custom_baseline |short-side 256|1x3| SlowFast | ava v2.1 | 58.8 | 24220 | [ckpt](https://drive.google.com/file/d/1ugIGRbFjhq19hdYXaTNvwjERxPbXtaUb/view?usp=share_link) |
 
 
-2- Please download the videos of socially housed macaques from [data](https://drive.google.com/drive/folders/1OnbBmgrOv0lLPgof0dVh3f4VsdNx_RSj?usp=share_link), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames in valuation set.
+2- Please download the videos of socially housed macaques from [data](https://drive.google.com/drive/folders/1OnbBmgrOv0lLPgof0dVh3f4VsdNx_RSj?usp=share_link), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames in the valuation and test set.
 
 ## Training and testing
 
@@ -80,6 +80,7 @@ The [monkey detector](https://github.com/BertonYang18/BARN_detector_YOLOv7) can 
 2. Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to convert the txt results into pickle (.pkl) file.
 3. Adopting the target config file and GPU in train_monkey.py / test_monkey.py 
 4. Checking the path of .pkl file in the config file such as [BARN.py](https://github.com/BertonYang18/BARN-monkey/blob/main/configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py).
+
 After the above preparation, performing the following steps:
 1- Running the train_monkey.py / test_monkey.py to generate the behavior predictions file (.csv).
 2- Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to fuse the result of the monkey detector and the result of BARN into final behavior predictions (.csv file). One line of the csv file represents one of the prediction results of a bbox. (One bbox may corresponde to multiple simultaneous behaviors, as the AVA dataset does)
