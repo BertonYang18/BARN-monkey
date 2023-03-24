@@ -7,7 +7,7 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
   <p style="font-size:1.5vw;">Visualization results of the bounding boxes, identity, movement trajectories and behaviors of macaques for two videos. The bounding box and movement trajectory of each macaque are drawn in the color of its collar. The identities and behaviors of macaques are separated by '#', and the simultaneous behavior is separated by '-'.</p>
   <p style="font-size:1.5vw;">identities including yellow, green, red, black, white (0~4)</p>
-  <p style="font-size:1.5vw;">behaviors 0:sitting on the high shelf 9: walking 10: climbing. See  the [word file](https://github.com/BertonYang18/BARN-monkey/blob/main/data/order_number_of_behaviors_in_paper.doc) for the order number and definition of behaviors in the paper (0~18).</p>
+  <p style="font-size:1.5vw;">behaviors 0:sitting on the high shelf     9: walking     10: climbing. See  the [word file](https://github.com/BertonYang18/BARN-monkey/blob/main/data/order_number_of_behaviors_in_paper.doc) for the order number and definition of behaviors in the paper (0~18).</p>
   </div>
 
 ## Note
