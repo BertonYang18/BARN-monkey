@@ -87,6 +87,7 @@ After the above preparation, performing the following steps:
 <div align="left">
   <p style="font-size:1.5vw;">1- Running the train_monkey.py / test_monkey.py to generate the behavior predictions file (.csv).</p>
   <p style="font-size:1.5vw;">2- Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to fuse the result of the monkey detector and the result of BARN into final behavior predictions (.csv file). One line of the csv file represents one of the prediction results of a bbox. (One bbox may corresponde to multiple simultaneous behaviors, as the AVA dataset does)</p>
+  <p style="font-size:1.5vw;">Each line: 'videoname, timstamp, bbox, behavior, identity, confidence of behavior'</p>
   <p style="font-size:1.5vw;">3.1- Using the final behavior predictions for behavior analysis. The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to generate the movement distance, duration of behaviors.</p>
   <p style="font-size:1.5vw;">3.2- The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to visualize the results on imgs and concatnate them into visual videos, which could show the identity, bbox, behaviors and movement trajectory. (The code would convert the order number of behaviors in original annotations into the order number of behaviors in the paper) (There may be some bugs in the visualization process and we will correct them as soon as possible)</p>
   </div>
@@ -94,8 +95,3 @@ After the above preparation, performing the following steps:
 
 Although the prediction process is automatical, it may be difficult for some researchers. Thus we may develop a Graphical User Interface (GUI) like the [DEEPLUBCUT](https://github.com/BertonYang18/DeepLabCut) for application in the future.
 
-
-[videoname, timestamp of]
-## License
-
-This project is released under the [Apache 2.0 license](LICENSE).
