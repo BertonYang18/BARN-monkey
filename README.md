@@ -7,7 +7,7 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
   <p style="font-size:1.5vw;">Visualization results of the bounding boxes, identity, movement trajectories and behaviors of macaques for two videos. The bounding box and movement trajectory of each macaque are drawn in the color of its collar. The identities and behaviors of macaques are separated by '#', and the simultaneous behavior is separated by '-'.</p>
   <p style="font-size:1.5vw;">identities including yellow, green, red, black, white (0~4)</p>
-  <p style="font-size:1.5vw;">behaviors is shown in the paper (0~18)</p>
+  <p style="font-size:1.5vw;">behaviors 0:sitting on the high shelf 9: walking 10: climbing. See  the [word file](https://github.com/BertonYang18/BARN-monkey/blob/main/data/order_number_of_behaviors_in_paper.doc) for the order number and definition of behaviors in the paper (0~18).</p>
   </div>
 
 ## Note
@@ -31,9 +31,6 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
 
 2- Please download the videos of socially housed macaques from [data](https://drive.google.com/drive/folders/1OnbBmgrOv0lLPgof0dVh3f4VsdNx_RSj?usp=share_link), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames in the valuation and test set.
 
-## Training and testing
-
-You can use the file "tools/train_monkey.py" for training and use the file "tools/test_monkey.py" for inference.
 
 ## Original readme.md of mmaction2
 The followings are the content in readme.md of mmaction2:
@@ -84,11 +81,17 @@ The [monkey detector](https://github.com/BertonYang18/BARN_detector_YOLOv7) can 
 3. Adopting the target config file and GPU in train_monkey.py / test_monkey.py 
 4. Checking the path of .pkl file in the config file such as [BARN.py](https://github.com/BertonYang18/BARN-monkey/blob/main/configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py).
 
+## Training and testing
+
 After the above preparation, performing the following steps:
-1- Running the train_monkey.py / test_monkey.py to generate the behavior predictions file (.csv).
-2- Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to fuse the result of the monkey detector and the result of BARN into final behavior predictions (.csv file). One line of the csv file represents one of the prediction results of a bbox. (One bbox may corresponde to multiple simultaneous behaviors, as the AVA dataset does)
-3.1- Using the final behavior predictions for behavior analysis. The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to generate the movement distance, duration of behaviors.
-3.2- The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to visualize the results on imgs and concatnate them into visual videos, which could show the identity, bbox, behaviors and movement trajectory. (The code would convert the order number of behaviors in original annotations into the order number of behaviors in the paper) (There may be some bugs in the visualization process and we will correct them as soon as possible)
+<div align="left">
+  <p style="font-size:1.5vw;">1- Running the train_monkey.py / test_monkey.py to generate the behavior predictions file (.csv).</p>
+  <p style="font-size:1.5vw;">2- Using the [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) to fuse the result of the monkey detector and the result of BARN into final behavior predictions (.csv file). One line of the csv file represents one of the prediction results of a bbox. (One bbox may corresponde to multiple simultaneous behaviors, as the AVA dataset does)</p>
+  <p style="font-size:1.5vw;">3.1- Using the final behavior predictions for behavior analysis. The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to generate the movement distance, duration of behaviors.</p>
+  <p style="font-size:1.5vw;">3.2- The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to visualize the results on imgs and concatnate them into visual videos, which could show the identity, bbox, behaviors and movement trajectory. (The code would convert the order number of behaviors in original annotations into the order number of behaviors in the paper) (There may be some bugs in the visualization process and we will correct them as soon as possible)</p>
+  </div>
+
+
 Although the prediction process is automatical, it may be difficult for some researchers. Thus we may develop a Graphical User Interface (GUI) like the [DEEPLUBCUT](https://github.com/BertonYang18/DeepLabCut) for application in the future.
 
 
