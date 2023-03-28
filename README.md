@@ -9,7 +9,8 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
   <p style="font-size:1.5vw;">identities including yellow, green, red, black, white (0~4)</p>
   <p style="font-size:1.5vw;">behaviors 0:sitting on the high shelf     9: walking     10: climbing.</p>
   </div>
-  See  the [word file](https://github.com/BertonYang18/BARN-monkey/blob/main/data/order_number_of_behaviors_in_paper.doc) for the order number and definition of behaviors in the paper (0~18).
+
+See  the [order_number_of_behaviors_in_paper.doc](https://github.com/BertonYang18/BARN-monkey/blob/main/data) for the order number and definition of behaviors in the paper (0~18).
 
 ## Note
 
