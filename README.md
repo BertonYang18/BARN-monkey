@@ -1,7 +1,5 @@
-## Introduction
 BARN is based on the code platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
-
-
+## Results show
 ![monkey_BARN_demo](https://user-images.githubusercontent.com/53562283/227211342-cdb51882-9316-491a-9c8e-ee8bf0be248f.gif)
 <div align="center">
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
@@ -11,6 +9,9 @@ BARN is based on the code platform of **[mmaction2](https://github.com/open-mmla
   </div>
 
 See  the [order_number_of_behaviors_in_paper.doc](https://github.com/BertonYang18/BARN-monkey/blob/main/data) for the order number and definition of behaviors in the paper (0~18).
+
+## Instruction videos for using the code
+We recorded the [videos](https://pan.baidu.com/s/19kWRaqO7V_Ospyum29MsgA?pwd=euv3) (Extraction code:：euv3) to show how to use our code for detecting a new video. (Please prepare the code environment as the following steps)
 
 ## Note
 
