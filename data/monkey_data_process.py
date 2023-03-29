@@ -1,7 +1,7 @@
-import glob, cv2, json, os, copy, math
+import glob, cv2, json, os, copy, shutil
 from turtle import end_fill
 import subprocess as sp
-import csv, re
+import csv, re, math
 import pickle, numpy 
 from tqdm import tqdm
 
@@ -110,19 +110,18 @@ def Chinese2num(tags, video, img_key):
 
 
 def json2txt(annotations, outRoot):
-    if not os.path.exists(outRoot):
-        os.mkdir(outRoot)
-
     print('Start converting with function "json2txt"!\n')
     for video in tqdm(annotations):
+        video_anno = annotations[video] # ->list
+        video = video.replace('-', '_')
         #创建文件夹
-        videoPath = outRoot + '\\' + video
+        videoPath = outRoot + '/' + video
         if not os.path.exists(videoPath):
             os.mkdir(videoPath)
         else:
             print('The path: %s is not empty'%(videoPath))
         #生成文件夹内容： txts
-        video_anno = annotations[video] # ->list
+        
         for frame in video_anno: # frame" dict(img_key: list)
             #生成一个txt文件
             img_key = list(frame.keys())[0]
@@ -138,7 +137,8 @@ def json2txt(annotations, outRoot):
                 line = ' '.join(line) + '\n'
                 onetxt.append(line)
             
-            framePath = videoPath + '\\' + img_key + '.txt'
+            
+            framePath = videoPath + '/' + img_key + '.txt'
             with open(framePath, 'w') as f:
                 f.writelines(onetxt)
     return True
@@ -161,13 +161,18 @@ def frame_change(file, video_name, max_frame_num):
             person_id = line[0]
             center_x, center_y, width, height = [float(i) for i in line[1:5]]
             label = line[5]
+            if '-' not in label and float(label) < 1.001:
+                # the txt is the output of YOLO, instead of the annotation
+                label = ['-1']
+            else:
+                label = label.split('-')
 
             xmin = center_x - width/2
             ymin = center_y - height/2
             xmax = center_x + width/2
             ymax = center_y + height/2
 
-            label = label.split('-')
+            
             for i in range(len(label)):
                 line_anno = []
                 #line_anno.extend([video_name, str(timestamp), str(xmin), str(ymin), str(xmax), str(ymax), label[i], person_id])  #*1
@@ -177,7 +182,9 @@ def frame_change(file, video_name, max_frame_num):
         return frame_anno
 
 def txt2csv(txtRoot, csv_path):
-
+    FPS = 30
+    num_key_frame_per_second = 3
+    ratio_key_frame =  int(FPS / num_key_frame_per_second)
     anno = []
     video_paths = glob.glob(txtRoot + '/*')
     video_paths.sort(reverse=False)
@@ -193,6 +200,10 @@ def txt2csv(txtRoot, csv_path):
             continue
         max_frame_num = int(re.split('[_.]', img_paths[-1])[-2])
         for img_path in img_paths:
+            # only record the key frames
+            frame_num = int(re.split('[_.]', img_path)[-2])
+            if frame_num % ratio_key_frame != 0:
+                continue
             frame_anno = frame_change(img_path, video_name, max_frame_num)
             video_anno.extend(frame_anno)
 
@@ -209,67 +220,77 @@ def txt2csv(txtRoot, csv_path):
     print('Not found .txt on the path\n',  blank_file)
 
 '''step2.2:  convert .txt to BAM.csv'''
-def BAM_chang_label(action):
-    bam_action = False
+def frame_change_BAM(file, video_name, max_frame_num):
+    fps = 30
+    img_name = file.split('/')[-1].split('.')[0]
+    frame = int(img_name.split('_')[-1])
+    timestamp = float(frame)/fps
+    with open(file, 'r') as f1:
+        frame_anno = []
+        for line in f1.readlines(): 
+            line = line.strip()
+            line = line.split(" ")
 
-    if int(action) in [8, 14, 15]:  #进食，饮水，抓食
-        pass
-    elif int(action) in [1, 3, 5, 6, 7, 10, 11, 12, 13, 19]:  #慢动作,  理毛
-        bam_action = '1'   
-    elif int(action) in [2, 4, 9, 16, 17, 18]:  #快动作, 打架, 追逐
-        bam_action = '2'
-    else:
-        print("Error!")
-    return bam_action
+            person_id = line[0]
+            center_x, center_y, width, height = [float(i) for i in line[1:5]]
+            label = line[5]
 
-def create_BAM_csv(input_csv, result_csv):
-    data = []
+            xmin = center_x - width/2
+            ymin = center_y - height/2
+            xmax = center_x + width/2
+            ymax = center_y + height/2
+
+            # label = label.split('-')
+            # for i in range(len(label)):
+            #     line_anno = []
+            #     #line_anno.extend([video_name, str(timestamp), str(xmin), str(ymin), str(xmax), str(ymax), label[i], person_id])  #*1
+            #     # [str, float, float,float,float,float, int, int]
+            #     line_anno.extend([video_name, timestamp, xmin, ymin, xmax, ymax, int(label[i]), int(person_id), max_frame_num])  #*2
+            #     frame_anno.append(line_anno)
+
+            label = label.split('-')
+            for i in range(len(label)):
+                line_anno = []
+                if int(label[i]) in [8, 14, 15]:  #进食，饮水，抓食
+                    continue
+                elif int(label[i]) in [1, 3, 5, 6, 7, 10, 11, 12, 13, 19]:  #慢动作  理毛
+                    label[i] = '1'   
+                elif int(label[i]) in [2, 4, 9, 16, 17, 18]:  #快动作 、打架&追逐
+                    label[i] = '2'
+                # [str, float, float,float,float,float, int, int]
+                line_anno.extend([video_name, timestamp, xmin, ymin, xmax, ymax, int(label[i]), int(person_id), max_frame_num])  #*2
+                frame_anno.append(line_anno)
+        return frame_anno
+
+def txt2csv_BAM(root_path, result_csv):
+    anno = []
+    video_paths = glob.glob(root_path+'/*')
+    video_paths.sort(reverse=False)
+    print('Start converting with function "txt2csv_BAM"!\n')
+    for video_path in tqdm(video_paths):
+        video_anno = []
+        video_name = os.path.basename(video_path)
+        img_paths = glob.glob(video_path+'/*')
+        if img_paths == []:
+            print(video_path, "is empty!")
+            continue
+        img_paths.sort(reverse=False)
+        max_frame_num = int(re.split('[_.]', img_paths[-1])[-2])
+        for img_path in img_paths:
+            frame_anno = frame_change_BAM(img_path, video_name, max_frame_num)
+            video_anno.extend(frame_anno)
+
+        # video_anno.sort(key=lambda x:(x[0],float(x[1]), tuple([x[i] for i in range(2,len(x))])),reverse=False)  #*1
+        video_anno.sort(key=lambda x:(x[1], x[-2]), reverse=False)  #视频名相同，按照time和person_id排序           *2  
+        anno.extend(video_anno)
+    # anno.sort(key=lambda x:(x[0], float(x[1]),  tuple([x[i] for i in range(2,len(x))])),reverse=False)
+    # headers = ['video_name', 'timestamp', 'xmin', 'ymin', 'xmax', 'ymax', 'label', 'monkey_id']
+    with open(result_csv, 'w', newline='') as f:
+        f_csv = csv.writer(f)
+        #f_csv.writerow(headers)
+        f_csv.writerows (anno)
 
     
-    with open(input_csv, 'r') as f:
-        data = []
-        print('Start converting with function "create_BAM_csv"!\n')
-        for line in tqdm(f.readlines()):
-            line = line.split(',')
-            action = line[6]
-            bam_action = BAM_chang_label(action)
-            if bam_action:
-                line[6] = bam_action 
-            else:
-                continue
-            out_line = ','.join(line)
-            data.append(out_line)
-
-    with open(result_csv, 'w+') as f:
-        f.writelines(data)
-
-    return True
-
-
-    
-'''step2.3: count the content of csv'''
-def count_num_of_frame_csv(csv_path):
-    data_dict = {}
-    with open(csv_path, 'r') as f:
-        for row in f.readlines():
-            row_list = row.strip().split(',')
-            img_key = row_list[0] + ' ' + row_list[1]
-            bbox = row_list[2:6]
-            action = row_list[6]
-            id = row_list[7]
-            # max_frame = row_list[8]
-
-            content = (bbox, action)
-            if img_key not in data_dict:
-                data_dict[img_key] = [content]
-            else:
-                old = data_dict[img_key]
-                old.append(content)
-                data_dict[img_key] = old
-    
-    num_frames = len(data_dict)
-    return num_frames
-
 
 '''step3:  extract frames from the annotated videos.'''
 def extract_one_video(videoname, outfile):
@@ -278,15 +299,17 @@ def extract_one_video(videoname, outfile):
     p.wait()
     return
 def extract_videos(video_root, img_root):
+    if not os.path.exists(img_root):
+        os.mkdir(img_root)
     print('Start extracting frames with function "extract_videos"!\n')
-    for video in tqdm(glob.glob(video_root + '\\*.mp4')):
-        videoname = video.split('\\')[-1][:-4]
-        outpath = img_root + '\\' + videoname
+    for video in tqdm(glob.glob(video_root + '/*.mp4')):
+        videoname = video.split('/')[-1][:-4].replace('-', '_')
+        outpath = img_root + '/' + videoname
         if not os.path.exists(outpath):
             os.mkdir(outpath)
-        outfile = outpath + '\\' + 'frames_%06d' + '.jpg'
+        outfile = outpath + '/' + 'frames_%06d' + '.jpg'
         extract_one_video(video, outfile)
-        # print(videoname + 'has been done!')
+        print(videoname + 'has been done!')
 
 
 '''step4:  draw labels on key frames for correcting annotations'''
@@ -295,7 +318,7 @@ def visualize_key_frames(annotations, imgRoot, visualizeImgRoot):
     colors_lib = {'white':(255,255,255), 'red':(0,0,255), 'yellow':(0,255,255), 'green':(0,255,0), 'black':(0,0,0)}
     for video in annotations:
         #创建文件夹
-        videoPath = visualizeImgRoot + '\\' + video
+        videoPath = visualizeImgRoot + '/' + video
         if not os.path.exists(videoPath):
             os.mkdir(videoPath)
         else:
@@ -305,8 +328,8 @@ def visualize_key_frames(annotations, imgRoot, visualizeImgRoot):
         print('Start drawing key-frames of %s with function "visualize_key_frames"!\n'%video)
         for frame in tqdm(video_anno):
             img_name = list(frame.keys())[0]
-            imgPath = imgRoot + '\\' + video + '\\' + img_name + '.jpg'
-            outPath = videoPath + '\\' + img_name + '.jpg'
+            imgPath = imgRoot + '/' + video + '/' + img_name + '.jpg'
+            outPath = videoPath + '/' + img_name + '.jpg'
             img = cv2.imread(imgPath)
             if img is None:
                 print(imgPath + " is error!")
@@ -349,7 +372,7 @@ def visualize_every_frame(annotations, imgRoot, visualizeImgRoot):
     colors_lib = {'white':(255,255,255), 'red':(0,0,255), 'yellow':(0,255,255), 'green':(0,255,0), 'black':(0,0,0)}
     for video in annotations:
         #创建文件夹
-        videoPath = visualizeImgRoot + '\\' + video
+        videoPath = visualizeImgRoot + '/' + video
         if not os.path.exists(videoPath):
             os.mkdir(videoPath)
         else:
@@ -377,8 +400,8 @@ def visualize_every_frame(annotations, imgRoot, visualizeImgRoot):
 
             for frame in frame_dict_clip:
                 img_name = list(frame.keys())[0]
-                imgPath = imgRoot + '\\' + video + '\\' + img_name + '.jpg'
-                outPath = videoPath + '\\' + img_name + '.jpg'
+                imgPath = imgRoot + '/' + video + '/' + img_name + '.jpg'
+                outPath = videoPath + '/' + img_name + '.jpg'
                 img = cv2.imread(imgPath)
                 if img is None:
                     print(imgPath + " is error!")
@@ -439,11 +462,21 @@ def resize(img_array, align_mode):
         img_array[i] = img1
     return img_array, (_width, _height)
 
-def images2video(in_frame_path, out_video_path):
+def images2video(in_frame_path, out_video_path, cover=True):
     img_array = []
-    videoname = in_frame_path.split('\\')[-1]
+    videoname = in_frame_path.split('/')[-1]
     print('Start concatenate %s with function "images2video"!\n'%videoname)
-    for filename in tqdm(glob.glob(in_frame_path + os.sep + '*.jpg')):
+    frame_path = glob.glob(in_frame_path + '/*.jpg')
+    if len(frame_path) == 0:
+        return -1
+    frame_path = sorted(frame_path, reverse=False)
+
+    outfile = out_video_path + '.mp4'
+    if not cover and os.path.exists(outfile):
+        print('%s has been existed, so skipping this video!'%outfile)
+        return
+
+    for filename in tqdm(frame_path):
         img = cv2.imread(filename)
         if img is None:
             print(filename + " is error!")
@@ -452,8 +485,8 @@ def images2video(in_frame_path, out_video_path):
 
     img_array, size = resize(img_array, 'largest')
     fps = 30
-    outfile = out_video_path + '.mp4'
-    out = cv2.VideoWriter(outfile, cv2.VideoWriter_fourcc(*'DIVX'), fps, size)
+
+    out = cv2.VideoWriter(outfile, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, size)
 
     for i in range(len(img_array)):
         out.write(img_array[i])
@@ -466,11 +499,11 @@ def draw_all_frames2video(annotations, imgRoot, visualize_every_img_Root, visual
         os.mkdir(visual_video_root)
 
     # only need to run it once
-    # visualize_every_frame(annotations, imgRoot, visualize_every_img_Root)
+    visualize_every_frame(annotations, imgRoot, visualize_every_img_Root)
 
-    for video_path in glob.glob(visualize_every_img_Root + '\\*'):
-        videoname = video_path.split('\\')[-1]
-        out_video_path = visual_video_root + '\\' + videoname
+    for video_path in glob.glob(visualize_every_img_Root + '/*'):
+        videoname = video_path.split('/')[-1]
+        out_video_path = visual_video_root + '/' + videoname
         images2video(video_path, out_video_path)
         # print('%s has been done!'%videoname)
 
@@ -513,7 +546,35 @@ def csv2pkl(csv_path, result_pkl):
 '''step6: fusing the predictions from the monkey detector( YOLO ) and BARN  into .csv file'''
 
 def spar_yolo_out(yolo_out_root):
-    pass
+    def to_str(item):
+        if isinstance(item, float):
+            return f'{item:.6f}'
+        return str(item)
+
+    # the bbox in detector.csv  : 'xmin', 'ymin', 'xmax', 'ymax'
+    # line:  videoname, timestamp, 'xmin', 'ymin', 'xmax', 'ymax', -1, identity, max_num
+    all_lines = []
+    with open(yolo_out_root, 'r') as f:
+        allline_data = sorted(f.readlines())
+        for line in allline_data:
+            line_list = line.strip().split(',')
+            videoname = line_list[0]
+            timestamp = line_list[1]
+            bbox = line_list[2:6]
+            # behavior = line_list[6]
+            identity = line_list[7]
+            max_num = line_list[8]
+
+            timestamp = float(timestamp)
+            timestamp = f'{timestamp:.6f}'
+            bbox = list(map(float, bbox))
+            bbox = list(map(to_str, bbox))
+
+            oneline = [videoname, timestamp] + bbox + [identity, max_num]   
+            all_lines.append(oneline)
+    all_lines = sorted(all_lines, key=lambda x:(x[0], float(x[1]), float(x[2]), float(x[3]), float(x[4]), float(x[5]), x[6]), reverse=False)
+    return all_lines
+
 def spar_BARN_out(BARN_out_path, cls_confidence_thr=0.6):
     # the bbox in .csv of BARN : 'xmin', 'ymin', 'xmax', 'ymax'
     # behavior:  1~19
@@ -544,7 +605,7 @@ def spar_BARN_out(BARN_out_path, cls_confidence_thr=0.6):
             #     continue
 
 
-            # correct the low-level wrong behavior predictions
+            # correct the low-level wrong of behavior predictions
             for jump_ind in range(len(jump_inds)-1, 0, -1):
                 jump_num = jump_inds[jump_ind]
                 if line_ind == jump_num:
@@ -573,6 +634,7 @@ def spar_BARN_out(BARN_out_path, cls_confidence_thr=0.6):
 
 
     # a = all_lines[1800:1815]
+    all_lines = sorted(all_lines, key=lambda x:(x[0], float(x[1]), float(x[2]), float(x[3]), float(x[4]), float(x[5])), reverse=False)
     return all_lines
 
 def spar_GT_bbox(GT_out_path):
@@ -593,9 +655,9 @@ def spar_GT_bbox(GT_out_path):
     return all_lines
 
 def fuse_all_predictions(data_bbox, data_BARN, final_predictions_path):
-    # data_bbox: [[videoname, timestamp, bbox, identity], ..., ]
+    # data_bbox: [[videoname, timestamp, bbox, identity, max_num], ..., ]
     # data_BARN: [[videoname, timestamp, bbox, behavior, cls_confidence], ..., ]
-    #data_final: [[videoname, timestamp, bbox, behavior, identity, cls_confidence], ..., ]
+    #data_final: [[videoname, timestamp, bbox, behavior, identity, cls_confidence, max_num], ..., ]
     data_final = []
 
     last_ind = 0
@@ -613,13 +675,16 @@ def fuse_all_predictions(data_bbox, data_BARN, final_predictions_path):
         for line2_ind in range(start_ind, len(data_bbox)):
             line2 = data_bbox[line2_ind]
             bbox_temp2 = [round(float(x), 2) for x in line2[2:6]]
+            identity = line2[6]
+            max_num = line2[7]
+
             if videoname == line2[0] and round(float(timestamp), 3) == round(float(line2[1]), 3) and bbox_temp1 == bbox_temp2:
-                final_line = [videoname, timestamp] + bbox + [behavior, line2[6], cls_confidence]
+                final_line = [videoname, timestamp] + bbox + [behavior, identity, cls_confidence, max_num]
                 final_line = ','.join(final_line) + '\n'
                 last_ind = line2_ind
                 break
-        # if final_line == []:
-        #     print('')
+        if final_line == []:
+            continue
         data_final.append(final_line)    
 
     with open(final_predictions_path, 'w') as f:
@@ -712,6 +777,7 @@ def motion_txt(txt_root):
 
 def motion_csv(csv_path):
     # the bbox in .csv of BARN : 'xmin', 'ymin', 'xmax', 'ymax'
+    # line: videoname, timestamp, bbox, behavior, identity, cls_confidence, max_num
     all_lines = []
     with open(csv_path, 'r') as f:
         for line in f.readlines():
@@ -724,14 +790,16 @@ def motion_csv(csv_path):
             # bbox = [center_x, center_y, w, h]
             behavior = line_list[6]
             identity = int(line_list[7])
-            # max_num = int(line_list[8])
+            # bbox_confidence = line_list[8]
+            max_num = int(line_list[9])
 
-            oneline = [videoname, timestamp, center_x, center_y, w, h, behavior, identity]
+            oneline = [videoname, timestamp, center_x, center_y, w, h, behavior, identity, max_num]
             all_lines.append(oneline)
     
     data = {}
     video_data = {}
-    txt_data = [[0,0,0,0, 0] for _ in range(6)]
+    txt_data = [[0,0,0,0, 0] for _ in range(6)] + [-1] # [[bbox_yellow, confidence_yellow], ``, [bbox_background, confidence_background], [max_num]]
+    
     for i in range(len(all_lines)):
         line = all_lines[i]
         videoname = line[0]
@@ -739,13 +807,15 @@ def motion_csv(csv_path):
         bbox = line[2:6]
         behavior = line[6]
         identity = int(line[7])
-        # max_num = int(line[8])
+        # bbox_confidence = line_list[8]
+        max_num = int(line_list[9])
 
         frame_num = int((float(timestamp) + 0.0001) * 30)
         frame_name = 'frames_%06d'%frame_num
 
         txt_data[identity] = bbox + [1.0]
-
+        txt_data[6] = max_num
+        
         if i == len(all_lines) - 1:
             video_data[frame_name] = txt_data
             data[videoname] = video_data
@@ -754,13 +824,12 @@ def motion_csv(csv_path):
         next_time = all_lines[i+1][1]
         if timestamp != next_time:
             video_data[frame_name] = txt_data
-            txt_data = [[0,0,0,0, 0] for _ in range(6)]
+            txt_data = [[0,0,0,0, 0] for _ in range(6)] + [-1]
 
         netx_video = all_lines[i+1][0]
         if videoname != netx_video:
             data[videoname] = video_data
             video_data = {}
-
 
     return data
 
@@ -780,10 +849,11 @@ def compute_motion(motion_data):
     for video, v in motion_data.items():
         track = []
         montion_per_video = [0,0,0,0,0]
+        # compute the distance from the track of key frames
         for frame, value in v.items():
-            yellow, green, red, black, white, _ =  value
+            yellow, green, red, black, white, _, max_num =  value
             yellow, green, red, black, white = yellow[:2], green[:2], red[:2], black[:2], white[:2]
-            track.append([yellow, green, red, black, white])
+            track.append([yellow, green, red, black, white, max_num])
         for monkey_ind in range(5):
             monkey_track = [x[monkey_ind] for x in track]
             for i in range(1, len(monkey_track)):
@@ -803,8 +873,36 @@ def compute_motion(motion_data):
 
         trajectory[video] =  track
     
-    # print(bigmove)
-    return montion, trajectory
+    def num2name(num):
+        return 'frames_%06d'%(int(num))
+    new_trajectory = {}
+    for videoname, v in motion_data.items():
+        new_v = {}
+        max_num = list(v.items())[0][-1][-1]
+        new_frame_num_list = [i for i in range(10, max_num, 10)]
+        new_frame_list = list(map(num2name, new_frame_num_list))
+        old_frame_list, old_value_list = list(v.keys()), list(v.values())
+
+        j=0
+        for framename_ind in range(len(new_frame_list)):
+            track_frame = None
+            framename = new_frame_list[framename_ind]
+            for old_framename_ind in range(j, len(old_frame_list)):
+                old_framename = old_frame_list[old_framename_ind]
+                old_track = old_value_list[old_framename_ind]
+                yellow, green, red, black, white, _, max_num =  old_track
+                yellow, green, red, black, white = yellow[:2], green[:2], red[:2], black[:2], white[:2]
+                old_track = [yellow, green, red, black, white, max_num]
+
+                if framename == old_framename:
+                    track_frame = old_track
+                    break
+            if track_frame == None:
+                track_frame = [[0,0], [0,0], [0,0], [0,0], [0,0], -1]
+            new_v[framename] = track_frame
+
+        new_trajectory[videoname] = new_v
+    return montion, new_trajectory
 
 '''step7: draw the trajectory'''
 def draw_trajectory_of_oneVideo(videoname, trajectory, original_frame_root, visual_frame_root):
@@ -864,6 +962,55 @@ def draw_trajectory_of_oneVideo(videoname, trajectory, original_frame_root, visu
 
 
 '''step8: '''
+def augment_trajectory(trajectory_t):
+    new_trajectory_t = {}
+    interval_aug = 10 # the interval between key frame
+    for videoname, trajectory in trajectory_t.items():
+        new_trajectory = {}
+        new_trajectory_2 = {}
+        framename_list, place_list = list(trajectory.keys()), list(trajectory.values())
+        for place_ind in range(len(place_list) - 1, -1, -1):
+            # imgkey = framename_list[place_ind]
+            # frame_num = int(imgkey.split('_')[-1])
+            # last_frame_num = frame_num - 10
+            # frame_num_ind, last_frame_num_ind = int(frame_num/10), int(last_frame_num/10)
+            place_next_key_frame, place_last_key_frame = place_list[place_ind], place_list[place_ind-1]
+            frame_name_next, frame_name_last = 'frames_%06d'%((place_ind+1)*10), 'frames_%06d'%((place_ind)*10) # ind=74 ~ frames_000750
+
+            new_trajectory[frame_name_next] = place_next_key_frame
+            max_num = place_next_key_frame[5]
+            for interval_frame_ind in range(1, interval_aug):
+                frame_num_cur = (place_ind+1)*10 - interval_frame_ind
+                frame_name_cur = 'frames_%06d'%(frame_num_cur)
+
+                place_cur = []
+                for monkey_ind in range(5):
+                    place_monkey_cur = [0,0]
+                    place_monkey_next_key_frame, place_monkey_last_key_frame = place_next_key_frame[monkey_ind], place_last_key_frame[monkey_ind]
+                    if place_monkey_next_key_frame != [0,0] and place_monkey_last_key_frame != [0,0]:
+                        # augment
+                        x1, y1 = place_monkey_last_key_frame
+                        x2, y2 = place_monkey_next_key_frame
+                        x0, y0 = x1 + (x2-x1)/interval_aug*(interval_aug - interval_frame_ind), y1 + (y2-y1)/interval_aug*(interval_aug - interval_frame_ind)
+                        place_monkey_cur = [x0, y0]
+                        pass
+                    else:
+                        # Proximity principle
+                        place_monkey_cur = place_monkey_next_key_frame if interval_frame_ind <=5 else place_monkey_last_key_frame
+                        pass
+                    place_cur.append(place_monkey_cur)
+                place_cur.append(max_num)
+                new_trajectory[frame_name_cur] = place_cur
+            if frame_name_last != 'frames_000000':
+                new_trajectory[frame_name_last] = place_last_key_frame
+
+        framename_list = sorted(new_trajectory, reverse=False)
+        for frame in framename_list:
+            new_trajectory_2[frame] = new_trajectory[frame]
+        new_trajectory_t[videoname] =  new_trajectory_2       
+    
+    return new_trajectory_t
+
 def labelnum2papernum(behavior):
     # behavior: 1~19
     # old_behavior_nums = [i for i in range(1, 20)]
@@ -872,6 +1019,7 @@ def labelnum2papernum(behavior):
     new_behavior_label = paper_behavior_nums[behavior - 1]
 
     return new_behavior_label
+
 
 def sparse_all(csv_path):
     # the bbox in .csv of BARN : 'xmin', 'ymin', 'xmax', 'ymax'
@@ -930,7 +1078,7 @@ def sparse_all(csv_path):
 
 
 
-def draw_allpredictions_of_oneVideo(videoname, trajectory, data_all, original_frame_root, visual_frame_root):
+def draw_predictions_on_frames(videoname, trajectory, data_all, original_frame_root, visual_frame_root):
     W, H = 1920, 1080
     track = trajectory[videoname]
     data_video = data_all[videoname]
@@ -959,13 +1107,18 @@ def draw_allpredictions_of_oneVideo(videoname, trajectory, data_all, original_fr
         else:
             key_frame_num = ((frame_num // 10) + 1) * 10
 
-        key_frame_num = min(key_frame_num, len(track)*10)
+        max_frame_num = min(key_frame_num, len(track))
         # 轨迹
-        label_ind = int(key_frame_num // 10)
-        for point_ind in range(label_ind - 1):
+        track_frame_list = [i for i in range(1, max_frame_num)]
+        def num2name(num):
+            return 'frames_%06d'%(int(num))
+        track_frame_list = list(map(num2name, track_frame_list))    
+        for imgkey_ind in range(len(track_frame_list) - 1):
+            imgkey = track_frame_list[imgkey_ind]
+            imgkey_next = track_frame_list[imgkey_ind + 1]
             for monkey_ind in range(5):
-                pt1_x, pt1_y = track[point_ind][monkey_ind]
-                pt2_x, pt2_y = track[point_ind + 1][monkey_ind]
+                pt1_x, pt1_y = track[imgkey][monkey_ind]
+                pt2_x, pt2_y = track[imgkey_next][monkey_ind]
 
                 pt1 = (int(pt1_x * W), int(pt1_y * H))
                 pt2 = (int(pt2_x * W), int(pt2_y * H))
@@ -978,12 +1131,8 @@ def draw_allpredictions_of_oneVideo(videoname, trajectory, data_all, original_fr
                 cv2.line(img, pt1, pt2, color, thickness, lineType)
             
         key_frame_name = 'frames_%06d'%key_frame_num
-        # while key_frame_name not in data_video:
-        #     key_frame_num = key_frame_num - 10
-        #     key_frame_name = 'frames_%06d'%key_frame_num
-        #     if key_frame_num <= 10:
-        #         break
         if key_frame_name not in data_video:
+            cv2.imwrite(vis_img_path, img)    
             continue
         data_frame = data_video[key_frame_name]
         for monkey_ind in range(5):
@@ -1023,11 +1172,11 @@ def draw_allpredictions_of_oneVideo(videoname, trajectory, data_all, original_fr
     cv2.waitKey(1000)
     return True
 
+
 '''
-step1:  convert .json of VOTT to .txt required by YOLO  ,for other experiments on YOLO.
-step2:  convert .txt to anno.csv 
-step2.2: convert .txt to BAM.csv for
-step2.3: count the content of csv
+step1:  convert .json of VOTT to .txt required by YOLO  ,for other experiments on YOLO.   
+step2:  convert .txt to anno.csv   (into training, val and test with EXCEL)
+step2.2: convert .txt to BAM.csv (keep the same training, val and test to Step2)
 step3:  extract frames from the annotated videos.
 step4:  draw labels on key frames for correcting annotations.
 step4.2:  draw labels on frames and concatenate them to videos.
@@ -1036,112 +1185,112 @@ step5: convert anno.csv(/result of monkey detector /BAM.csv) to .pkl for BARN.
 step6: fusing the predictions from the monkey detector( YOLO ) and BARN  into .csv file
 step6.2: Behavior Duration
 step6.3: compute quantity of motion
-step7: draw the trajectory                 (may go wrong for special video. We will upgrade it)
-step8 draw all predictions on img and video.   (may go wrong for special video. We will upgrade it)
+step7: draw the trajectory
+
+step8 draw all predictions on img and video
 '''
 if __name__ == '__main__':
+    # jsonRoot = "E:/data/monkey/support-20221225/annotations"
+    # jsonname = jsonRoot + '/' + '1-export.json'
 
-    # jsonRoot = "E:\\data\\monkey\\support-20221225\\annotations"
-    # jsonname = jsonRoot + '\\' + '1-export.json'
-    # txtRoot = "E:\\data\\monkey\\support-20230117\\part1\\anno_txt"
+    # txtRoot = "E:/data/monkey/support-20230117/part1/anno_txt"
     # csv_path = "/data/ys/monkey/alldata/labels/sub/final/anno/val.csv"
-    # videoRoot = "E:\\data\\monkey\\support-20221225\\videos"
-    # imgRoot = "E:\\data\\monkey\\support-20221225\\frames"
-    # visual_key_frames_Root = "E:\\data\\monkey\\support-20221225\\visual_key_frames"
-    # visualize_every_img_Root = "E:\\data\\monkey\\support-20221225\\visual_every_frames"
+    # videoRoot = "E:/data/monkey/support-20221225/videos"
+    # imgRoot = "E:/data/monkey/support-20221225/frames"
+    # visual_key_frames_Root = "E:/data/monkey/support-20221225/visual_key_frames"
+    # visualize_every_img_Root = "E:/data/monkey/support-20221225/visual_every_frames"
     # result_pkl = '/home/yangsen/mycode/mmaction2-master/data/monkey/annotation_final_2class/gd_bbox_val.pkl'
-    # visual_video_root = "E:\\data\\monkey\\data\\ys\\monkey\\alldata\\frames\\all_frames"
+    # visual_video_root = "E:/data/monkey/data/ys/monkey/alldata/frames/all_frames"
     
-    # jsonRoot = "E:\\data\\monkey\\test-20230319"
-    # jsonname = jsonRoot + '\\' + '4-export.json'
+    # jsonRoot = "/new_data2/ys/anno_json"
+    # jsonname = jsonRoot + '/' + '1-export.json'
     # annotations = json2data(jsonname)
 
-
     '''step1: convert .json of VOTT to .txt required by YOLO'''
-    # txtRoot = "E:\\data\\monkey\\test-20230319\\anno_txt"
+    # txtRoot = '/new_data2/ys/demo'
     # annotations1 = copy.deepcopy(annotations)
     # json2txt(annotations1, txtRoot)
     # print('anno2txt has been done!')
 
-
     '''step2:  convert .txt to anno.csv'''
     # txtRoot = txtRoot
-    # txtRoot = "E:\\data\\monkey\\test-20230319\\anno_txt"
-    # csv_path = "E:\\data\\monkey\\test-20230319\\test_csv.csv"
+    # txtRoot = "/new_data2/ys/yolo_video/demo_out/exp/labels"
+    # csv_path = "/new_data2/ys/yolo_video/csvpath/detector.csv"
     # txt2csv(txtRoot, csv_path)
 
-
-    '''step2.2:  convert .csv to BAM.csv '''
-    # inputcsv = 'E:\\data\\monkey\\1\\test.csv'
-    # BAM_csv_path = "E:\\data\\monkey\\1\\test_BAM.csv"
-    # create_BAM_csv(inputcsv, BAM_csv_path)
-
-
-    '''step2.3: count the content of csv'''
-    # csv_path = 'E:\\data\\monkey\\test-20230319\\test_csv.csv'
-    # num_frames = count_num_of_frame_csv(csv_path)
-    # print("%s has %d frames"%(csv_path, num_frames))
-
+    '''step2.2:  convert .txt to BAM.csv '''
+    # txtRoot_BAM = '/new_data2/ys/annotations/test'
+    # BAM_csv_path = "/new_data2/ys/labels/BARN/BAM_labels/test.csv"
+    # txt2csv_BAM(txtRoot_BAM, BAM_csv_path)
 
     '''step3:  extract frames from the annotated videos.'''
-    # videoRoot = "E:\\data\\monkey\\support-20230117\\part1\\videos"
-    # imgRoot = "E:\\data\\monkey\\support-20230117\\part1\\frames"
+    # videoRoot = "/new_data2/ys/demo"
+    # imgRoot = "/new_data2/ys/demo_frames"
     # extract_videos(videoRoot, imgRoot)
 
-
     '''step4:  draw labels on key frames for correcting annotations.'''
-    # imgRoot = "E:\\data\\monkey\\support-20221225\\frames"
-    # visual_key_frames_Root = "E:\\data\\monkey\\support-20221225\\visual_frames"
+    # imgRoot = "E:/data/monkey/support-20221225/frames"
+    # visual_key_frames_Root = "E:/data/monkey/support-20221225/visual_frames"
     # annotations2 = copy.deepcopy(annotations)
     # visualize_key_frames(annotations2, imgRoot, visual_key_frames_Root)
     # print('visualizeOnImg has been done!')
 
     '''step4.2:  draw labels on frames and concatenate them to videos.'''
     # annotations3 = copy.deepcopy(annotations)
-    # imgRoot = "E:\\data\\monkey\\support-20230117\\part1\\frames"
-    # visualize_every_img_Root = "E:\\data\\monkey\\support-20230117\\part1\\visual_every_frames"
-    # visual_video_root = "E:\\data\\monkey\\support-20230117\\part1\\visual_videos"
+    # imgRoot = "/new_data2/ys/demo"  # original_img
+    # visualize_every_img_Root = "/new_data2/ys/demo"  # imgs with anno
+    # visual_video_root = "/new_data2/ys/test_video"
     # draw_all_frames2video(annotations3, imgRoot, visualize_every_img_Root, visual_video_root)
 
-
-
     '''step5: convert anno.csv(/monkey detector) including proposals(only bounding box) to .pkl for BARN.'''
-    # csv_path = 'E:\\data\\monkey\\1\\test.csv'
-    # result_pkl = 'E:\\data\\monkey\\1\\gd_bbox_test.pkl'
+    # # csv_path = csv_path
+    # csv_path = '/new_data2/ys/yolo_video/csvpath/detector.csv'
+    # result_pkl = '/new_data2/ys/yolo_video/csvpath/gd_bbox_detector.pkl'
     # csv2pkl(csv_path, result_pkl)
 
 
-    '''step6: fusing the predictions from the monkey detector( YOLO ) and BARN  into .csv file'''
-    # yolo_out_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\test_labels_yolov7'
-    # BARN_out_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\acrn.csv'
-    # cls_confidence_thr = 0.8
-    # final_predictions_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\final_predictions_acrn' + '-' + str(cls_confidence_thr) + '.csv'
-    # # data_yolo = spar_yolo_out(yolo_out_root)
 
+
+
+    '''step6: fusing the predictions from the monkey detector( YOLO ) and BARN  into .csv file'''
+    yolo_out_root = '/new_data2/ys/yolo_video/csvpath/detector.csv'
+    BARN_out_path = '/new_data2/ys/yolo_video/csvpath/demo.csv'
+    cls_confidence_thr = 0.6
+    final_predictions_path = '/new_data2/ys/yolo_video/csvpath/final_predictions_BARN' + '-' + str(cls_confidence_thr) + '.csv'
+
+    data_yolo = spar_yolo_out(yolo_out_root)
     # GT_out_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\test.csv'
     # data_bbox = spar_GT_bbox(GT_out_path)
-    # data_BARN = spar_BARN_out(BARN_out_path, cls_confidence_thr=cls_confidence_thr)
-    # fuse_all_predictions(data_bbox, data_BARN, final_predictions_path)
+    data_BARN = spar_BARN_out(BARN_out_path, cls_confidence_thr=cls_confidence_thr)
+
+    fuse_all_predictions(data_yolo, data_BARN, final_predictions_path)
 
 
     '''step6.2: Behavior Duration'''
-    # csv_GT = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\test.csv'
-    # csv_pre = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\final_predictions_BARN-0.8.csv'
-    # csv_acrn = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\final_predictions_acrn-0.8.csv'
-    # result_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\durations-0.8-2.csv'
     # interval = 0.3333 # one key frame ----  0.33 second
+    # csv_GT = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\test.csv'
     # dur_GT = compute_behavior_duration(csv_GT, interval)
+
+    # csv_pre = '/new_data2/ys/yolo_video/csvpath/final_predictions_BARN-0.6.csv'
     # dur_pre = compute_behavior_duration(csv_pre, interval)
+
+    # csv_acrn = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\final_predictions_acrn-0.8.csv'
     # dur_acrn = compute_behavior_duration(csv_acrn, interval)
+    # result_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\behavior\\durations-0.8-2.csv'
+    
+    # print(dur_pre)
     # # print(dur_GT, dur_pre, dur_acrn)
     # dump_dur(dur_GT, dur_pre, dur_acrn,result_path)
     
 
 
     '''step6.3: quantity of motion'''
-    # txt_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\test_labels_yolov7'
-    # predict_data = motion_txt(txt_root)
+    ## txt_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\test_labels_yolov7'
+    ## predict_data = motion_txt(txt_root)
+    # csv_path_predict = '/new_data2/ys/yolo_video/csvpath/detector.csv'
+    # predict_data = motion_csv(csv_path_predict)
     # motion_result_p, trajectory_p = compute_motion(predict_data)
+    # print(motion_result_p)
 
     # csv_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\test.csv'
     # GT_data = motion_csv(csv_path)
@@ -1163,14 +1312,17 @@ if __name__ == '__main__':
 
 
     '''step8: draw identity, bbox, trajectory and behavior'''
-    # csv_path = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\final_predictions_BARN-0.8.csv'
-    # motion_data = motion_csv(csv_path)
-    # motion_result_t, trajectory_t = compute_motion(motion_data)
+    csv_path = '/new_data2/ys/yolo_video/csvpath/final_predictions_BARN-0.6.csv'
+    motion_data = motion_csv(csv_path)
+    motion_result_t, trajectory_t = compute_motion(motion_data)
+    trajectory_t = augment_trajectory(trajectory_t)
 
-    # data_all = sparse_all(csv_path)
-    # videoname = '1_front_2022_08_05_19_48_06_0040_0050'
-    # original_frame_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\frames'
-    # visual_frame_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\frames_visual_all'
-    # visual_video_root = 'C:\\Users\\Administrator\\Desktop\\analysis\\motion\\videos_visual_all'
-    # draw_allpredictions_of_oneVideo(videoname, trajectory_t, data_all, original_frame_root, visual_frame_root)
-    # images2video(visual_frame_root + os.sep + videoname, visual_video_root + os.sep + videoname)
+    data_all = sparse_all(csv_path)
+    videoname = 'demo'
+    original_frame_root = '/new_data2/ys/yolo_video/tmp'
+    visual_frame_root = '/new_data2/ys/yolo_video/visual/demo_visual_frame'
+    visual_video_root = '/new_data2/ys/yolo_video/visual/demo_visual_video'
+    draw_predictions_on_frames(videoname, trajectory_t, data_all, original_frame_root, visual_frame_root)
+    images2video(visual_frame_root + os.sep + videoname, visual_video_root + os.sep + videoname)
+
+
