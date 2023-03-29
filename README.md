@@ -15,7 +15,7 @@ We made the [videos](https://pan.baidu.com/s/19kWRaqO7V_Ospyum29MsgA?pwd=euv3) (
 
 
 ## Stable version
-- (2023-03-29) We published a video showing how to using our code for a new macaque video.
+- (2023-03-29) We published the instruction videos showing how to using our code for a new macaque video.
 - (2023-03-25) We updated the code and data for 19 macaque behaviors, including 3 social interactions: fighting, chasing and grooming.
 - (2022-12-28) We published the BARN-monkey code and data for 16 macaque behaviors, without social interactions.
 
