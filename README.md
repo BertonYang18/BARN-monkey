@@ -14,6 +14,11 @@ See  the [order_number_of_behaviors_in_paper.doc](https://github.com/BertonYang1
 We made the [videos](https://pan.baidu.com/s/19kWRaqO7V_Ospyum29MsgA?pwd=euv3) (Extraction code:：euv3) to show how to use our code for detecting a new video. (We would add the captions to the videos as soon as possible.) Please prepare the data and code environment in advance as the following steps:
 
 
+## Stable version
+- (2023-03-29) We published a video showing how to using our code for a new macaque video.
+- (2023-03-25) We updated the code and data for 19 macaque behaviors, including 3 social interactions: fighting, chasing and grooming.
+- (2022-12-28) We published the BARN-monkey code and data for 16 macaque behaviors, without social interactions.
+
 ## Data Preparation
 
 1- Please download the weights (ckpt files) that were learned on the proposed macaque behavior datasets using 3 GPUs of NVIDIA TITAN RTX :
