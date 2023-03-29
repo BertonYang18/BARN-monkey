@@ -1,5 +1,5 @@
 BARN is based on the code platform of **[mmaction2](https://github.com/open-mmlab/mmaction2) v0.22.0**(released in 05/03/2022). 
-## Results show
+## Results presentation
 ![monkey_BARN_demo](https://user-images.githubusercontent.com/53562283/227211342-cdb51882-9316-491a-9c8e-ee8bf0be248f.gif)
 <div align="center">
   <p style="font-size:1.5vw;">Behavior Detection Results of BARN on the macaque behavior dataset using the ground-truth bbox</p>
