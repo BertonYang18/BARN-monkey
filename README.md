@@ -16,7 +16,7 @@ We made the [videos](https://pan.baidu.com/s/19kWRaqO7V_Ospyum29MsgA?pwd=euv3) (
 
 ## Data Preparation
 
-1- Please download the learned weights (ckpt files) on the proposed macaque behavior datasets:
+1- Please download the weights (ckpt files) that were learned on the proposed macaque behavior datasets using 3 GPUs of NVIDIA TITAN RTX :
 
 |config | resolution | gpus | backbone |pretrain| val mAP(%) | gpu_mem(MB) | ckpt |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
