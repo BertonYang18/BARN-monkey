@@ -98,6 +98,9 @@ After the above preparation, performing the following steps:
   <p style="font-size:1.5vw;">3.2- The [data process code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey_data_process.py) provides the codes to visualize the results on imgs and concatnate them into visual videos, which could show the identity, bbox, behaviors and movement trajectory. (The code would convert the order number of behaviors in original annotations into the order number of behaviors in the paper) (There may be some bugs in the visualization process and we will correct them as soon as possible)</p>
   </div>
 
+## Inference
+Please watch the above section of 'Instruction videos for using the code'.
+
 
 Although the prediction process is automatical, it may be difficult for some researchers. Thus we may develop a Graphical User Interface (GUI) like the [DEEPLUBCUT](https://github.com/BertonYang18/DeepLabCut) for application in the future.
 
