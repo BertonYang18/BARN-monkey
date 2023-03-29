@@ -28,6 +28,7 @@ We made the [videos](https://pan.baidu.com/s/19kWRaqO7V_Ospyum29MsgA?pwd=euv3) (
 2- Please download the videos of socially housed macaques from [all videos](https://pan.baidu.com/s/1lXfaw8aF9koXrOJHMGiMvQ?pwd=1582)(Extraction code: 1582) and [val&test videos](https://drive.google.com/drive/folders/1OnbBmgrOv0lLPgof0dVh3f4VsdNx_RSj?usp=share_link), then extract the video frames with the [ExtractFrame code](https://github.com/BertonYang18/BARN-monkey/blob/main/data/monkey/extract_monkey_frames.sh) and save them to the path of "BARN-monkey/data/monkey/frames/". These frames contain the whole frames of training, validation and test set.
 
 3- Please download the [checkpoint files](https://drive.google.com/file/d/1dJa0r9ejwN-COswHeKXE-W4EuqrW4HVK/view?usp=share_link) and put them in a path such as 'checkpoint/'.
+
 4- Remember to change the involved paths such as the paths of data in [config file](https://github.com/BertonYang18/BARN-monkey/blob/main/configs/detection/monkey_interaction/mix_r50_4x16x1_20e_ava_rgb_custom.py), the paths of checkpoints and weight in [train_monkey.py](https://github.com/BertonYang18/BARN-monkey/blob/main/tools/train_monkey.py) / [test_monkey.py](https://github.com/BertonYang18/BARN-monkey/blob/main/tools/test_monkey.py) / [detect_monkey.py](https://github.com/BertonYang18/BARN-monkey/blob/main/tools/detect_monkey.py).
 
 ## Original readme.md of mmaction2
